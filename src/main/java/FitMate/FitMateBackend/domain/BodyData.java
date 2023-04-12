@@ -1,7 +1,7 @@
 package FitMate.FitMateBackend.domain;
 
 import FitMate.FitMateBackend.domain.chatGPT.Recommend;
-import FitMate.FitMateBackend.form.BodyDataForm;
+import FitMate.FitMateBackend.deprecated.form.BodyDataForm;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

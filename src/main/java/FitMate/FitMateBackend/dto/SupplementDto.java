@@ -11,7 +11,7 @@ public class SupplementDto {
     private String description;
     private String marketURL;
 
-    private String protein;
+    private String supplementType;
     // protein, gainer
     private Float proteinPerServing;
     private Float fatPerServing;

@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SupplementRecommendationForm {
-    private BodyDataForm bodyDataForm;
+    private Long bodyDataId;
     private Long monthlyBudget;
     private List<Purpose> purpose;
 }

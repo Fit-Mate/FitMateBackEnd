@@ -21,11 +21,12 @@ public class User {
     private String userName;
     private String loginId;
     private String password;
-    private Float height;
-    private Float weight;
-
-    @Enumerated(EnumType.STRING)
-    private BodyShape bodyShape;
+    private String sex;
+//    private Float height; // 체성분으로 이동
+//    private Float weight; // 체성분으로 이동
+//
+//    @Enumerated(EnumType.STRING)
+//    private BodyShape bodyShape; // 더이상 보관하지 않음.
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<BodyData> bodyDataHistory;

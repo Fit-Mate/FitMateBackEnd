@@ -1,0 +1,29 @@
+
+spring:
+#  datasource:
+#    url:
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+#      ddl-auto: create
+    properties:
+      hibernate:
+        #        show-sql: true
+        format-sql: true
+        default_batch_fetch_size: 10
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
+server:
+  port: 5000

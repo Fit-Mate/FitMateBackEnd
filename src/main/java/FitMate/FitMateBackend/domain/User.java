@@ -1,15 +1,18 @@
 package FitMate.FitMateBackend.domain;
 
+import FitMate.FitMateBackend.chanhaleWorking.form.RegisterForm;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue
@@ -20,6 +23,7 @@ public class User {
     private String loginId;
     private String password;
     private String sex;
+    private String type; // Admin 여부 표기용 "Admin", "Customer"
 //    private Float height; // 체성분으로 이동
 //    private Float weight; // 체성분으로 이동
 //
@@ -27,6 +31,19 @@ public class User {
 //    private BodyShape bodyShape; // 더이상 보관하지 않음.
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<BodyData> bodyDataHistory;
+    private List<BodyData> bodyDataHistory = new ArrayList<>();
 
+    public void addBodyDataHistory(BodyData bodyData){
+        bodyDataHistory.add(bodyData);
+        bodyData.setUser(this);
+    }
+    public static User createUser(RegisterForm form, String type) {
+        User user = new User();
+        user.userName = form.getUserName();
+        user.loginId = form.getLoginId();
+        user.password = form.getPassword();
+        user.sex = form.getSex();
+        user.type = type;
+        return user;
+    }
 }

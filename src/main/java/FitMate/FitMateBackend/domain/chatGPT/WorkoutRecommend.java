@@ -12,9 +12,9 @@ import java.util.List;
 @DiscriminatorValue("Workout")
 public class WorkoutRecommend extends Recommend {
 
-    @OneToMany(mappedBy = "recommend")
-    private List<BodyPart> bodyPart;
-    @OneToMany(mappedBy = "recommend")
-    private List<Machine> machines;
+//    @OneToMany(mappedBy = "recommend")
+//    private List<BodyPart> bodyPart;
+//    @OneToMany(mappedBy = "recommend")
+//    private List<Machine> machines;
 
 }

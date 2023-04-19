@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Table(name="body_parts")
 @Getter
-@Setter
 public class BodyPart {
     @Id
     @GeneratedValue
@@ -20,6 +19,6 @@ public class BodyPart {
     private String englishName;
     private String koreanName;
 
-    @OneToMany(mappedBy = "body_part", cascade = CascadeType.ALL)
-    private List<Machine> machines = new ArrayList<>();
+//    @OneToMany(mappedBy = "body_part", cascade = CascadeType.ALL)
+//    private List<Machine> machines = new ArrayList<>();
 }

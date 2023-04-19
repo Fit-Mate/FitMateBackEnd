@@ -1,19 +1,16 @@
 package FitMate.FitMateBackend.domain;
 
-import FitMate.FitMateBackend.domain.chatGPT.Recommend;
-import FitMate.FitMateBackend.deprecated.form.BodyDataForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.BodyDataForm;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "body_data")
 @Getter
-@Setter
 @NoArgsConstructor
 public class BodyData {
     @Id
@@ -33,9 +30,8 @@ public class BodyData {
     private Float upperMuscleMass;
     private Float lowerMuscleMass;
 
-    public BodyData createBodyData(User user, BodyDataForm bodyDataForm) {
+    public static BodyData createBodyData(BodyDataForm bodyDataForm) {
         BodyData bodyData = new BodyData();
-        bodyData.user = user;
         bodyData.date = LocalDate.now();
         bodyData.height = bodyDataForm.getHeight();
         bodyData.weight = bodyDataForm.getWeight();
@@ -46,6 +42,8 @@ public class BodyData {
         return bodyData;
     }
 
-    @OneToMany(mappedBy = "body_data", cascade = CascadeType.ALL)
-    private List<Recommend> recommendList;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

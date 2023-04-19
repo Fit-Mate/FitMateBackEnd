@@ -1,34 +1,49 @@
-//package FitMate.FitMateBackend.domain;
+package FitMate.FitMateBackend.domain;
+
+import FitMate.FitMateBackend.chanhaleWorking.form.RegisterForm;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "users")
+@Getter
+@NoArgsConstructor
+public class User {
+    @Id
+    @GeneratedValue
+    @Column(name = "user_id")
+    private Long id;
+
+    private String userName;
+    private String loginId;
+    private String password;
+    private String sex;
+    private String type; // Admin 여부 표기용 "Admin", "Customer"
+//    private Float height; // 체성분으로 이동
+//    private Float weight; // 체성분으로 이동
 //
-//import FitMate.FitMateBackend.domain.chatGPT.Recommend;
-//import jakarta.persistence.*;
-//import lombok.Getter;
-//import lombok.Setter;
-//import lombok.extern.slf4j.Slf4j;
-//
-//import java.util.List;
-//
-//@Entity
-//@Table(name = "users")
-//@Getter
-//@Setter
-//public class User {
-//    @Id
-//    @GeneratedValue
-//    @Column(name = "user_id")
-//    private Long id;
-//
-//    private String userName;
-//    private String loginId;
-//    private String password;
-//    private String sex;
-////    private Float height; // 체성분으로 이동
-////    private Float weight; // 체성분으로 이동
-////
-////    @Enumerated(EnumType.STRING)
-////    private BodyShape bodyShape; // 더이상 보관하지 않음.
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<BodyData> bodyDataHistory;
-//
-//}
+//    @Enumerated(EnumType.STRING)
+//    private BodyShape bodyShape; // 더이상 보관하지 않음.
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<BodyData> bodyDataHistory = new ArrayList<>();
+
+    public void addBodyDataHistory(BodyData bodyData){
+        bodyDataHistory.add(bodyData);
+        bodyData.setUser(this);
+    }
+    public static User createUser(RegisterForm form, String type) {
+        User user = new User();
+        user.userName = form.getUserName();
+        user.loginId = form.getLoginId();
+        user.password = form.getPassword();
+        user.sex = form.getSex();
+        user.type = type;
+        return user;
+    }
+}

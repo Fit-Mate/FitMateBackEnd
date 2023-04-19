@@ -1,10 +1,8 @@
 package FitMate.FitMateBackend.domain;
 
-import FitMate.FitMateBackend.domain.chatGPT.Recommend;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 

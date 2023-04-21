@@ -40,6 +40,6 @@ out/
 **/src/main/java/FitMate/FitMateBackend/deprecated/
 
 ### Jisung ###
-/src/main/java/FitMate/FitMateBackend/FitMateApplication.java
-/src/main/java/FitMate/FitMateBackend/P6spyPrettySqlFormatter.java
-/src/main/java/FitMate/FitMateBackend/P6spyConfig.java
+**/src/main/java/FitMate/FitMateBackend/FitMateApplication.java
+**/src/main/java/FitMate/FitMateBackend/P6spyPrettySqlFormatter.java
+**/src/main/java/FitMate/FitMateBackend/P6spyConfig.java

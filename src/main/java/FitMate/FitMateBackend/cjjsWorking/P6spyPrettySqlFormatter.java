@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend;
+package FitMate.FitMateBackend.cjjsWorking;
 
 import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;

@@ -23,7 +23,7 @@ public class MachineRepository {
     }
 
     public List<Machine> findAll(int offset, int limit) {
-        return em.createQuery("select m from Machine n", Machine.class)
+        return em.createQuery("select m from Machine m", Machine.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();

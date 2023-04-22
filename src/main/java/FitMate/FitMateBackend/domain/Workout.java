@@ -2,7 +2,6 @@ package FitMate.FitMateBackend.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,4 +24,13 @@ public class Workout {
     private String koreanName;
     private String videoLink;
     private String description;
+
+    public void update(String englishName, String koreanName, String videoLink,
+                       String description, List<BodyPart> bodyParts) {
+        this.englishName = englishName;
+        this.koreanName = koreanName;
+        this.videoLink = videoLink;
+        this.description = description;
+        this.bodyParts = bodyParts;
+    }
 }

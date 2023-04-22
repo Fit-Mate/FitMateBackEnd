@@ -1,13 +1,13 @@
 package FitMate.FitMateBackend.cjjsWorking.controller;
 
-import FitMate.FitMateBackend.cjjsWorking.service.WorkoutService;
+import FitMate.FitMateBackend.cjjsWorking.service.BodyPartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class WorkoutController {
+public class bodyPartController {
 
-    private final WorkoutService workoutService;
+    private final BodyPartService bodyPartService;
 
 }

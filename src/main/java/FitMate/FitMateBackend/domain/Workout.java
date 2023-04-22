@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 public class Workout {
 
     @Id @GeneratedValue
     @Column(name = "workout_id")
     private Long id;
 
-//    @ManyToMany
-//    @JoinTable(name = "workout_body_part",
-//        joinColumns = @JoinColumn(name = "workout_id"),
-//        inverseJoinColumns = @JoinColumn(name = "body_part_id"))
-//    private List<BodyPart> bodyParts = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "workout_body_part",
+        joinColumns = @JoinColumn(name = "workout_id"),
+        inverseJoinColumns = @JoinColumn(name = "body_part_id"))
+    private List<BodyPart> bodyParts = new ArrayList<>();
 
     private String englishName;
     private String koreanName;

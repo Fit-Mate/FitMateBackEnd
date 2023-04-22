@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class BodyPartRepository {
@@ -13,5 +15,26 @@ public class BodyPartRepository {
 
     public void save(BodyPart bodyPart) {
         em.persist(bodyPart);
+    }
+
+    public BodyPart findById(Long id) {
+        return em.find(BodyPart.class, id);
+    }
+
+    //Overloading
+    public List<BodyPart> findAll() {
+        return em.createQuery("select b from BodyPart b", BodyPart.class)
+                .getResultList();
+    }
+    public List<BodyPart> findAll(int offset, int limit) {
+        return em.createQuery("select b from BodyPart b", BodyPart.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+    //Overloading
+
+    public void remove(BodyPart bodyPart) {
+        em.remove(bodyPart);
     }
 }

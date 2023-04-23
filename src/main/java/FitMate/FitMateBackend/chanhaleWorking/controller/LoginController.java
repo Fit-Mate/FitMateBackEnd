@@ -1,6 +1,6 @@
 package FitMate.FitMateBackend.chanhaleWorking.controller;
 
-import FitMate.FitMateBackend.chanhaleWorking.SessionConst;
+import FitMate.FitMateBackend.consts.SessionConst;
 import FitMate.FitMateBackend.domain.User;
 import FitMate.FitMateBackend.chanhaleWorking.form.LoginForm;
 import FitMate.FitMateBackend.chanhaleWorking.service.LoginService;
@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 서비스의 Login 에 관련된 URL 처리하는 컨트롤러
+ */
 @Slf4j
 @Controller
 @RequiredArgsConstructor

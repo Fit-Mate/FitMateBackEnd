@@ -14,18 +14,16 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long register(RegisterForm registerForm){
+    public void register(RegisterForm registerForm){
         User newUser = User.createUser(registerForm, "Customer");
         newUser.addBodyDataHistory(BodyData.createBodyData(registerForm.getBodyDataForm()));
         userRepository.save(newUser);
-        return newUser.getId();
     }
     @Transactional
-    public Long registerAdmin(RegisterForm registerForm){
+    public void registerAdmin(RegisterForm registerForm){
         User newUser = User.createUser(registerForm, "Admin");
         newUser.addBodyDataHistory(BodyData.createBodyData(registerForm.getBodyDataForm()));
         userRepository.save(newUser);
-        return newUser.getId();
     }
 
     @Transactional(readOnly = true)

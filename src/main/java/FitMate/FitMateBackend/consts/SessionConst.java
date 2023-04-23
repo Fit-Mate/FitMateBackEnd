@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.chanhaleWorking;
+package FitMate.FitMateBackend.consts;
 
 
 /**
@@ -6,6 +6,7 @@ package FitMate.FitMateBackend.chanhaleWorking;
  * 상수만 참조해 쓸것이므로
  * 객체를 못만들게 인터페이스를 만들어버린다.
  */
+
 public interface SessionConst {
     public static final String LOGIN_USER = "loginUser";
     public static final String LOGIN_ADMIN = "loginAdmin";

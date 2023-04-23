@@ -1,20 +1,15 @@
 package FitMate.FitMateBackend.chanhaleWorking.controller;
 
-import FitMate.FitMateBackend.chanhaleWorking.SessionConst;
-import FitMate.FitMateBackend.chanhaleWorking.form.LoginForm;
 import FitMate.FitMateBackend.chanhaleWorking.form.RegisterForm;
-import FitMate.FitMateBackend.chanhaleWorking.service.LoginService;
 import FitMate.FitMateBackend.chanhaleWorking.service.UserService;
-import FitMate.FitMateBackend.domain.User;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
+/**
+ * User 생성, 수정 삭제에 관한 컨트롤러
+ */
 @Slf4j
 @Controller
 @RequiredArgsConstructor

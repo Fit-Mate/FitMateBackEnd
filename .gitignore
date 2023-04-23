@@ -43,3 +43,7 @@ out/
 **/src/main/java/FitMate/FitMateBackend/FitMateApplication.java
 **/src/main/java/FitMate/FitMateBackend/P6spyPrettySqlFormatter.java
 **/src/main/java/FitMate/FitMateBackend/P6spyConfig.java
+
+### DB관련 resource ###
+/src/main/resources/application.properties
+/src/main/resources/application.yml

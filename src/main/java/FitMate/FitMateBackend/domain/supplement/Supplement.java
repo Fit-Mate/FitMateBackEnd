@@ -1,14 +1,15 @@
 package FitMate.FitMateBackend.domain.supplement;
 
+import FitMate.FitMateBackend.chanhaleWorking.form.SupplementForm;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "supplements")
 @Getter
-@Setter
 @DiscriminatorColumn(name = "supplement_type")
+@NoArgsConstructor
 public abstract class Supplement {
     @Id
     @GeneratedValue
@@ -22,4 +23,21 @@ public abstract class Supplement {
     private String description;
     private String marketURL;
 
+    public Supplement(SupplementForm supplementForm) {
+        this.englishName = supplementForm.getEnglishName();
+        this.koreanName = supplementForm.getKoreanName();
+        this.price = supplementForm.getPrice();
+        this.servings = supplementForm.getServings();
+        this.description = supplementForm.getDescription();
+        this.marketURL = supplementForm.getMarketURL();
+    }
+
+    public void updateFields(SupplementForm supplementForm) {
+        this.englishName = supplementForm.getEnglishName();
+        this.koreanName = supplementForm.getKoreanName();
+        this.price = supplementForm.getPrice();
+        this.servings = supplementForm.getServings();
+        this.description = supplementForm.getDescription();
+        this.marketURL = supplementForm.getMarketURL();
+    }
 }

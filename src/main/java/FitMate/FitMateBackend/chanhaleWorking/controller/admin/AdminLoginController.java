@@ -9,9 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Admin 페이지의 Login 기능을 처리하는 컨트롤러
@@ -26,7 +24,7 @@ public class AdminLoginController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public String login(LoginForm loginForm, HttpServletRequest request){
+    public String login(@RequestBody LoginForm loginForm, HttpServletRequest request){
 
         log.info("ADMIN login attempt [{}]",loginForm.getLoginId() );
         User loginAdmin = loginService.adminLogin(loginForm.getLoginId(), loginForm.getPassword());
@@ -44,7 +42,7 @@ public class AdminLoginController {
         return "ok";
     }
 
-    @PostMapping("/logout")
+    @PutMapping("/logout")
     @ResponseBody
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

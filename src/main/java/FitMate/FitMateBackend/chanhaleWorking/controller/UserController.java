@@ -19,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public String register(RegisterForm registerForm){
+    public String register(@RequestBody RegisterForm registerForm){
         log.info("REGISTER [{}] [{}]", registerForm.getUserName(), registerForm.getSex());
         String errMsg = registerForm.validateFields();
         if (!errMsg.equals("ok"))
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/admin/register")
-    public String adminRegister(RegisterForm registerForm){
+    public String adminRegister(@RequestBody RegisterForm registerForm){
         log.info("REGISTER [{}] [{}]", registerForm.getUserName(), registerForm.getSex());
         String errMsg = registerForm.validateFields();
         if (errMsg != "ok")

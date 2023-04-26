@@ -1,10 +1,13 @@
 package FitMate.FitMateBackend.chanhaleWorking.repository;
 
+import FitMate.FitMateBackend.consts.ServiceConst;
 import FitMate.FitMateBackend.domain.supplement.Supplement;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,5 +32,11 @@ public class SupplementRepository {
         if (!(supplement == null)) {
             em.remove(supplement);
         }
+    }
+
+    public List<Supplement> getSupplementBatch(Long page) {
+        return em.createQuery("select s from Supplement s order by s.id", Supplement.class)
+                .setFirstResult((int) (ServiceConst.PAGE_BATCH_SIZE * (page - 1))).setMaxResults(ServiceConst.PAGE_BATCH_SIZE)
+                .getResultList();
     }
 }

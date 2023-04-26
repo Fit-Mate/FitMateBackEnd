@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 서비스의 Login 에 관련된 URL 처리하는 컨트롤러
@@ -27,7 +25,7 @@ public class LoginController {
 
     @PostMapping("/login")
     @ResponseBody
-    public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
+    public String login(@RequestBody LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()){
             return "fail";//"입력 오류";
         }
@@ -44,7 +42,7 @@ public class LoginController {
         return "ok";
     }
 
-    @PostMapping("/logout")
+    @PutMapping("/logout")
     @ResponseBody
     public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

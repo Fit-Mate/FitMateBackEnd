@@ -2,11 +2,10 @@ package FitMate.FitMateBackend.chanhaleWorking.controller;
 
 import FitMate.FitMateBackend.consts.SessionConst;
 import FitMate.FitMateBackend.domain.User;
-import FitMate.FitMateBackend.chanhaleWorking.form.LoginForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.login.LoginForm;
 import FitMate.FitMateBackend.chanhaleWorking.service.LoginService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -37,6 +36,7 @@ public class LoginController {
             return "fail";//"로그인 실패. 아이디와 패스워드를 확인해주세요.";
         }
         HttpSession session = request.getSession();
+
         session.setAttribute(SessionConst.LOGIN_USER, loginUser);
         log.info("login success [{}]",loginForm.getLoginId() );
         return "ok";

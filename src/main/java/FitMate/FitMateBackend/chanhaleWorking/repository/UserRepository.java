@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.chanhaleWorking.repository;
 
 import FitMate.FitMateBackend.domain.User;
+import FitMate.FitMateBackend.domain.supplement.Supplement;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,16 @@ public class UserRepository {
         return em.createQuery("select u from User u where u.loginId = :loginId ", User.class)
                 .setParameter("loginId", loginId)
                 .getResultList().size() > 0;
+    }
+
+    public void deleteUser(Long id) {
+        User user = em.find(User.class, id);
+        if (!(user == null)) {
+            em.remove(user);
+        }
+    }
+
+    public User findOne(Long id) {
+        return em.find(User.class, id);
     }
 }

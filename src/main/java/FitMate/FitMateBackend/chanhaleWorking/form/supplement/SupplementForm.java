@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.chanhaleWorking.form;
+package FitMate.FitMateBackend.chanhaleWorking.form.supplement;
 
 import FitMate.FitMateBackend.domain.supplement.SupplementType;
 import lombok.AllArgsConstructor;

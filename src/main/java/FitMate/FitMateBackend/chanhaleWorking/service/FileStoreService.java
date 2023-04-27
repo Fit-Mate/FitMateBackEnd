@@ -1,6 +1,8 @@
 package FitMate.FitMateBackend.chanhaleWorking.service;
 
 import FitMate.FitMateBackend.consts.ServiceConst;
+import jakarta.servlet.ServletContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;

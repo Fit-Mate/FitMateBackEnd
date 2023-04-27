@@ -1,7 +1,7 @@
 package FitMate.FitMateBackend.chanhaleWorking.controller.admin;
 
 import FitMate.FitMateBackend.chanhaleWorking.dto.SupplementListDto;
-import FitMate.FitMateBackend.chanhaleWorking.form.SupplementForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.supplement.SupplementForm;
 import FitMate.FitMateBackend.chanhaleWorking.service.FileStoreService;
 import FitMate.FitMateBackend.chanhaleWorking.service.SupplementService;
 import FitMate.FitMateBackend.chanhaleWorking.dto.SupplementDto;

@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.chanhaleWorking.argumentresolver;
+package FitMate.FitMateBackend.chanhaleWorking.config.argumentresolver;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

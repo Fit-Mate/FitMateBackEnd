@@ -1,10 +1,10 @@
 package FitMate.FitMateBackend.domain;
 
-import FitMate.FitMateBackend.chanhaleWorking.form.RegisterForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.user.RegisterForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.user.UpdateUserForm;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +45,13 @@ public class User {
         user.sex = form.getSex();
         user.type = type;
         return user;
+    }
+
+    public void updateUser(UpdateUserForm updateUserForm) {
+        this.userName = updateUserForm.getUserName();
+    }
+
+    public void updatePassword(String newPassword) {
+        this.password = newPassword;
     }
 }

@@ -65,7 +65,7 @@ public class MachineController {
 
     @GetMapping("admin/machines/{machineId}") //단건조회
     public Machine findMachine(@PathVariable("machineId") Long machineId,
-                            @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+                               @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
         if(admin != null) {
             Machine findMachine = machineService.findOne(machineId);
             return findMachine;

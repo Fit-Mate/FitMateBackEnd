@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.chanhaleWorking.service;
 
 import FitMate.FitMateBackend.chanhaleWorking.form.supplement.SupplementForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.supplement.SupplementSearchForm;
 import FitMate.FitMateBackend.chanhaleWorking.repository.SupplementRepository;
 import FitMate.FitMateBackend.consts.ServiceConst;
 import FitMate.FitMateBackend.domain.supplement.*;
@@ -137,5 +138,9 @@ public class SupplementService {
 
     public List<Supplement> getSupplementBatch(Long page) {
         return supplementRepository.getSupplementBatch(page);
+    }
+
+    public List<Supplement> searchSupplementBatch(Long page, SupplementSearchForm form){
+        return supplementRepository.searchSupplement(page, form.getSupplementType(), form.getSearchKeyword());
     }
 }

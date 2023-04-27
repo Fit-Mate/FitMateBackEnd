@@ -22,8 +22,4 @@ public class BCAA extends Supplement {
         super.updateFields(supplementForm);
     }
 
-    @Override
-    public SupplementType getType() {
-        return SupplementType.BCAA;
-    }
 }

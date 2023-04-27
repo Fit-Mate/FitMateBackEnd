@@ -33,8 +33,4 @@ public class Gainer extends Supplement {
         this.source = supplementForm.getSource();
     }
 
-    @Override
-    public SupplementType getType() {
-        return SupplementType.Gainer;
-    }
 }

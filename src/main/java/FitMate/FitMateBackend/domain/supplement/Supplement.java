@@ -23,6 +23,7 @@ public abstract class Supplement {
     private String description;
     private String marketURL;
     private String flavor;
+    private SupplementType type;
 
     // 앞에 디렉터리 정보를 제외한 상대경로를 저장
     private String imagePath;
@@ -35,6 +36,7 @@ public abstract class Supplement {
         this.description = supplementForm.getDescription();
         this.marketURL = supplementForm.getMarketURL();
         this.flavor = supplementForm.getFlavor();
+        this.type = supplementForm.getSupplementType();
     }
 
     public void updateFields(SupplementForm supplementForm) {
@@ -45,8 +47,8 @@ public abstract class Supplement {
         this.description = supplementForm.getDescription();
         this.marketURL = supplementForm.getMarketURL();
         this.flavor = supplementForm.getFlavor();
+        this.type = supplementForm.getSupplementType();
     }
-    public abstract SupplementType getType();
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;

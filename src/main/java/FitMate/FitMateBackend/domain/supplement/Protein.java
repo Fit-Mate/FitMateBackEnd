@@ -34,8 +34,4 @@ public class Protein extends Supplement {
         this.source = supplementForm.getSource();
     }
 
-    @Override
-    public SupplementType getType() {
-        return SupplementType.Protein;
-    }
 }

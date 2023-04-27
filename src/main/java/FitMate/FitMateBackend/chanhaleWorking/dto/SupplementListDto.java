@@ -20,7 +20,7 @@ public class SupplementListDto {
     private String flavor;
 //    private UrlResource image;
 
-    public SupplementListDto(Supplement supplement) throws MalformedURLException {
+    public SupplementListDto(Supplement supplement){
         this.id = supplement.getId();
         this.englishName = supplement.getEnglishName();
         this.koreanName = supplement.getKoreanName();

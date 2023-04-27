@@ -37,7 +37,7 @@ public class SupplementDto {
     // protein, gainer, bcaa
     // bcaa 는 추가요소 없음
 
-    public SupplementDto(Supplement supplement) throws MalformedURLException {
+    public SupplementDto(Supplement supplement){
         this.id = supplement.getId();
         this.englishName = supplement.getEnglishName();
         this.koreanName = supplement.getKoreanName();

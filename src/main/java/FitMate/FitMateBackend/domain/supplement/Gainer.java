@@ -17,7 +17,6 @@ public class Gainer extends Supplement {
     private Float fatPerServing;
     private Float carbohydratePerServing;
     private String source;
-    private String flavor;
 
     public Gainer(SupplementForm supplementForm) {
         super(supplementForm);
@@ -25,7 +24,6 @@ public class Gainer extends Supplement {
         this.fatPerServing = supplementForm.getFatPerServing();
         this.carbohydratePerServing = supplementForm.getCarbohydratePerServing();
         this.source = supplementForm.getSource();
-        this.flavor = supplementForm.getFlavor();
     }
     public void updateFields(SupplementForm supplementForm) {
         super.updateFields(supplementForm);
@@ -33,6 +31,10 @@ public class Gainer extends Supplement {
         this.fatPerServing = supplementForm.getFatPerServing();
         this.carbohydratePerServing = supplementForm.getCarbohydratePerServing();
         this.source = supplementForm.getSource();
-        this.flavor = supplementForm.getFlavor();
+    }
+
+    @Override
+    public SupplementType getType() {
+        return SupplementType.Gainer;
     }
 }

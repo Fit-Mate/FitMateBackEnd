@@ -14,14 +14,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class BCAA extends Supplement {
 
-    private String flavor;
 
     public BCAA(SupplementForm supplementForm) {
         super(supplementForm);
-        this.flavor = supplementForm.getFlavor();
     }
     public void updateFields(SupplementForm supplementForm) {
         super.updateFields(supplementForm);
-        this.flavor = supplementForm.getFlavor();
+    }
+
+    @Override
+    public SupplementType getType() {
+        return SupplementType.BCAA;
     }
 }

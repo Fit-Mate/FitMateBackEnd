@@ -2,12 +2,15 @@ package FitMate.FitMateBackend.chanhaleWorking.form;
 
 import FitMate.FitMateBackend.domain.supplement.SupplementType;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class SupplementForm {
     private String englishName;
     private String koreanName;
@@ -21,6 +24,7 @@ public class SupplementForm {
     private Float carbohydratePerServing;
     private String source;
     private String flavor;
+    private MultipartFile image;
 
     public String validateFields() {
         if (price < 0) {

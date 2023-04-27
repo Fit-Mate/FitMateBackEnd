@@ -1,5 +1,6 @@
 package FitMate.FitMateBackend.cjjsWorking.service;
 
+import FitMate.FitMateBackend.cjjsWorking.repository.BodyPartRepository;
 import FitMate.FitMateBackend.cjjsWorking.repository.MachineRepository;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Machine;
@@ -15,6 +16,7 @@ import java.util.List;
 public class MachineService {
 
     private final MachineRepository machineRepository;
+    private final BodyPartRepository bodyPartRepository;
 
     @Transactional
     public Long saveMachine(Machine machine) {
@@ -23,9 +25,21 @@ public class MachineService {
     }
 
     @Transactional
-    public Long updateMachine(Long machineId, String englishName, String koreanName, List<BodyPart> bodyParts) {
+    public Long updateMachine(Long machineId, String englishName, String koreanName, List<String> bodyPartKoreanName) {
         Machine findMachine = machineRepository.findById(machineId);
-        findMachine.update(englishName, koreanName, bodyParts);
+        findMachine.update(englishName, koreanName);
+
+        for (BodyPart bodyPart : findMachine.getBodyParts()) {
+            bodyPart.removeMachine(findMachine);
+        }
+        findMachine.getBodyParts().clear();
+
+        for (String name : bodyPartKoreanName) {
+            BodyPart findBodyPart = bodyPartRepository.findByKoreanName(name);
+            findBodyPart.addMachine(findMachine);
+            findMachine.getBodyParts().add(findBodyPart);
+        }
+
         return machineId;
     }
 

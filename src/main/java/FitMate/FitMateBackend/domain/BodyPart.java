@@ -2,6 +2,7 @@ package FitMate.FitMateBackend.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name="body_part")
 @Getter
+@NoArgsConstructor
 public class BodyPart {
 
     @Id @GeneratedValue
@@ -30,5 +32,13 @@ public class BodyPart {
     public void update(String englishName, String koreanName) {
         this.englishName = englishName;
         this.koreanName = koreanName;
+    }
+
+    public void addMachine(Machine machine) {
+        machines.add(machine);
+    }
+
+    public void removeMachine(Machine machine) {
+        machines.remove(machine);
     }
 }

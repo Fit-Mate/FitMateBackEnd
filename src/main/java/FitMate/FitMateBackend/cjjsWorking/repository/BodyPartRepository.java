@@ -23,7 +23,7 @@ public class BodyPartRepository {
 
     public BodyPart findByKoreanName(String koreanName) {
         return em.createQuery("select b from BodyPart b where b.koreanName = :koreanName", BodyPart.class)
-                .setParameter("name", koreanName)
+                .setParameter("koreanName", koreanName)
                 .getResultList().get(0);
     }
 

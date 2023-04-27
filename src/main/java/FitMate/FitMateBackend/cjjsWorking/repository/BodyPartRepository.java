@@ -21,6 +21,12 @@ public class BodyPartRepository {
         return em.find(BodyPart.class, id);
     }
 
+    public BodyPart findByKoreanName(String koreanName) {
+        return em.createQuery("select b from BodyPart b where b.koreanName = :koreanName", BodyPart.class)
+                .setParameter("name", koreanName)
+                .getResultList().get(0);
+    }
+
     //Overloading
     public List<BodyPart> findAll() {
         return em.createQuery("select b from BodyPart b", BodyPart.class)

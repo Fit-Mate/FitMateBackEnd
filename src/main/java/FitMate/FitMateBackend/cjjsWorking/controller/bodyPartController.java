@@ -20,18 +20,18 @@ public class bodyPartController {
     private final HttpSession session;
 
     @PostMapping("admin/bodyParts") //운동 부위 정보 등록
-    public Long saveBodyPart(@SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,
+    public Long saveBodyPart(/*@SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,*/
                              @RequestBody BodyPartRequest request) {
 
-        if(admin != null) { //find session
+//        if(admin != null) { //find session
             BodyPart bodyPart = new BodyPart();
             bodyPart.update(request.englishName, request.koreanName);
 
             Long bodyPartId = bodyPartService.saveBodyPart(bodyPart);
             return bodyPartId;
-        } else { //session null
-            return null; //예외 처리 필요
-        }
+//        } else { //session null
+//            return null; //예외 처리 필요
+//        }
     }
 
     @PutMapping("admin/bodyParts/{bodyPartId}") //운동 부위 정보 수정

@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.domain.supplement;
 
 import FitMate.FitMateBackend.chanhaleWorking.form.SupplementForm;
+import FitMate.FitMateBackend.consts.ServiceConst;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -18,7 +19,6 @@ public class Protein extends Supplement {
     private Float carbohydratePerServing;
     // 분리유청단백, isolate, 대두단백
     private String source;
-    private String flavor;
 
     public Protein(SupplementForm supplementForm) {
         super(supplementForm);
@@ -26,7 +26,6 @@ public class Protein extends Supplement {
         this.fatPerServing = supplementForm.getFatPerServing();
         this.carbohydratePerServing = supplementForm.getCarbohydratePerServing();
         this.source = supplementForm.getSource();
-        this.flavor = supplementForm.getFlavor();
     }
     public void updateFields(SupplementForm supplementForm) {
         super.updateFields(supplementForm);
@@ -34,7 +33,10 @@ public class Protein extends Supplement {
         this.fatPerServing = supplementForm.getFatPerServing();
         this.carbohydratePerServing = supplementForm.getCarbohydratePerServing();
         this.source = supplementForm.getSource();
-        this.flavor = supplementForm.getFlavor();
     }
 
+    @Override
+    public SupplementType getType() {
+        return SupplementType.Protein;
+    }
 }

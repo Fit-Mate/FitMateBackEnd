@@ -23,9 +23,10 @@ public abstract class Supplement {
     private Float servings;
     private String description;
     private String marketURL;
+    private String flavor;
 
     // 앞에 디렉터리 정보를 제외한 상대경로를 저장
-    private String imagePath = ServiceConst.DEFAULT_IMAGE_PATH;
+    private String imagePath;
 
     public Supplement(SupplementForm supplementForm) {
         this.englishName = supplementForm.getEnglishName();
@@ -34,6 +35,7 @@ public abstract class Supplement {
         this.servings = supplementForm.getServings();
         this.description = supplementForm.getDescription();
         this.marketURL = supplementForm.getMarketURL();
+        this.flavor = supplementForm.getFlavor();
     }
 
     public void updateFields(SupplementForm supplementForm) {
@@ -43,7 +45,9 @@ public abstract class Supplement {
         this.servings = supplementForm.getServings();
         this.description = supplementForm.getDescription();
         this.marketURL = supplementForm.getMarketURL();
+        this.flavor = supplementForm.getFlavor();
     }
+    public abstract SupplementType getType();
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;

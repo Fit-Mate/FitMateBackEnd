@@ -1,10 +1,9 @@
 package FitMate.FitMateBackend.domain;
 
-import FitMate.FitMateBackend.chanhaleWorking.form.BodyDataForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.user.BodyDataForm;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
 

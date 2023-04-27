@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.chanhaleWorking.service;
 
-import FitMate.FitMateBackend.chanhaleWorking.form.RegisterForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.user.RegisterForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.user.UpdateUserForm;
 import FitMate.FitMateBackend.chanhaleWorking.repository.UserRepository;
 import FitMate.FitMateBackend.domain.BodyData;
 import FitMate.FitMateBackend.domain.User;
@@ -30,4 +31,21 @@ public class UserService {
     public Boolean checkDuplicatedLoginId(String loginId){
         return userRepository.CheckDuplicatedLoginId(loginId);
     }
+
+    @Transactional
+    public void updateUser(User user, UpdateUserForm updateUserForm) {
+        user.updateUser(updateUserForm);
+
+    }
+
+    @Transactional
+    public void updateUserPassword(User user, String newPassword) {
+        userRepository.findOne(user.getId()).updatePassword(newPassword);
+    }
+
+    @Transactional
+    public void deleteUser(User user) {
+        userRepository.deleteUser(user.getId());
+    }
+
 }

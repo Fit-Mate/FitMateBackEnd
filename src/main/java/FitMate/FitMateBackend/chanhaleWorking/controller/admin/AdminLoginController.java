@@ -1,7 +1,7 @@
 package FitMate.FitMateBackend.chanhaleWorking.controller.admin;
 
 import FitMate.FitMateBackend.consts.SessionConst;
-import FitMate.FitMateBackend.chanhaleWorking.form.LoginForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.login.LoginForm;
 import FitMate.FitMateBackend.chanhaleWorking.service.LoginService;
 import FitMate.FitMateBackend.domain.User;
 import jakarta.servlet.http.HttpServletRequest;

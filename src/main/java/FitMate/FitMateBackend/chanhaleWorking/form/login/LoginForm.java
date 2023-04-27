@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.chanhaleWorking.form;
+package FitMate.FitMateBackend.chanhaleWorking.form.login;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

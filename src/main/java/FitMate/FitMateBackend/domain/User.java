@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Entity
@@ -53,5 +54,8 @@ public class User {
 
     public void updatePassword(String newPassword) {
         this.password = newPassword;
+    }
+    public void setSortBodyData(List<BodyData> sortedBodyData) {
+        this.bodyDataHistory = sortedBodyData;
     }
 }

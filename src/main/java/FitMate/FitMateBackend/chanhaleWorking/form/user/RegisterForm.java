@@ -1,5 +1,6 @@
 package FitMate.FitMateBackend.chanhaleWorking.form.user;
 
+import FitMate.FitMateBackend.chanhaleWorking.form.bodyData.BodyDataForm;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

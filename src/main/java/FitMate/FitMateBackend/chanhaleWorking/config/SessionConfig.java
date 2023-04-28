@@ -18,8 +18,11 @@ public class SessionConfig implements WebMvcConfigurer {
         resolvers.add(new LoginUserArgumentResolver());
     }
 
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new LoginUserCheckInterceptor())
+                .order(1)
+                .addPathPatterns("/bodyData/**");
 //        // 사용자 로그인 인터셉터
 //        registry.addInterceptor(new LoginUserCheckInterceptor())
 //                .order(1)
@@ -30,5 +33,5 @@ public class SessionConfig implements WebMvcConfigurer {
 //                .order(2)
 //                .addPathPatterns("/admin/**")
 //                .excludePathPatterns("/admin/login", "/admin/logout", "/css/**", "/*.ico", "/error");
-//    }
+    }
 }

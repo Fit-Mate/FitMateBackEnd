@@ -23,7 +23,7 @@ public class MachineController {
     private final MachineService machineService;
     private final BodyPartRepository bodyPartRepository;
 
-    @PostMapping("admin/machines") //생성 (완료)
+    @PostMapping("admin/machines") //생성 (TEST 완료)
     public Long saveMachine(@SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,
                             @RequestBody MachineRequest request) {
         Machine machine = new Machine();
@@ -39,7 +39,7 @@ public class MachineController {
         return machineId;
     }
 
-    @PutMapping("admin/machines/{machineId}") //수정 (완료)
+    @PutMapping("admin/machines/{machineId}") //수정 (TEST 완료)
     public Long updateMachine(@PathVariable("machineId") Long machineId,
                               @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,
                               @RequestBody MachineRequest request) {
@@ -48,7 +48,7 @@ public class MachineController {
         return machineId;
     }
 
-    @GetMapping("admin/machines/{machineId}") //단건조회 (완료)
+    @GetMapping("admin/machines/{machineId}") //단건조회 (TEST 완료)
     public GetMachineResponse findMachine(@PathVariable("machineId") Long machineId,
                                @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
         Machine findMachine = machineService.findOne(machineId);
@@ -56,10 +56,9 @@ public class MachineController {
                 findMachine.getBodyParts());
     }
 
-    @GetMapping("admin/machines/list/{page}") //batch 단위 조회 (완료)
+    @GetMapping("admin/machines/list/{page}") //batch 단위 조회 (TEST 완료)
     public List<MachineDto> findMachines_page(@PathVariable("page") int page,
                                            @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
-        //page1 -> bodyPartId: 0~9
         int offset = (page-1)*10;
         int limit = ((page*10)-1);
 
@@ -70,7 +69,7 @@ public class MachineController {
                 .collect(Collectors.toList());
     }
 
-    @DeleteMapping("admin/machines/{machineId}") //삭제 (완료)
+    @DeleteMapping("admin/machines/{machineId}") //삭제 (TEST 완료)
     public Long deleteMachine(@PathVariable("machineId") Long machineId,
                               @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
         Machine findMachine = machineService.findOne(machineId);

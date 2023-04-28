@@ -43,4 +43,12 @@ public class BodyPart {
     public void removeMachine(Machine machine) {
         machines.remove(machine);
     }
+
+    public void addWorkout(Workout workout) {
+        workouts.add(workout);
+    }
+
+    public void removeWorkout(Workout workout) {
+        workouts.remove(workout);
+    }
 }

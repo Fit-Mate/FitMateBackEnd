@@ -1,5 +1,6 @@
 package FitMate.FitMateBackend.cjjsWorking.service;
 
+import FitMate.FitMateBackend.cjjsWorking.repository.BodyPartRepository;
 import FitMate.FitMateBackend.cjjsWorking.repository.WorkoutRepository;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Workout;
@@ -15,6 +16,7 @@ import java.util.List;
 public class WorkoutService {
 
     private final WorkoutRepository workoutRepository;
+    private final BodyPartRepository bodyPartRepository;
 
     @Transactional
     public Long saveWorkout(Workout workout) {
@@ -22,10 +24,23 @@ public class WorkoutService {
         return workout.getId();
     }
 
+    @Transactional
     public Long updateWorkout(Long workoutId, String englishName, String koreanName, String videoLink,
-                              String description, List<BodyPart> bodyParts) {
+                              String description, List<String> bodyPartKoreanName, String imagePath) {
         Workout findWorkout = workoutRepository.findById(workoutId);
-        findWorkout.update(englishName, koreanName, videoLink, description, bodyParts);
+        findWorkout.update(englishName, koreanName, videoLink, description, imagePath);
+
+        for (BodyPart bodyPart : findWorkout.getBodyParts()) {
+            bodyPart.removeWorkout(findWorkout);
+        }
+        findWorkout.getBodyParts().clear();
+
+        for (String name : bodyPartKoreanName) {
+            BodyPart findBodyPart = bodyPartRepository.findByKoreanName(name);
+            findBodyPart.addWorkout(findWorkout);
+            findWorkout.getBodyParts().add(findBodyPart);
+        }
+
         return workoutId;
     }
 
@@ -37,6 +52,7 @@ public class WorkoutService {
         return workoutRepository.findById(workoutId);
     }
 
+    @Transactional
     public Long removeWorkout(Long workoutId) {
         Workout findWorkout = workoutRepository.findById(workoutId);
         workoutRepository.remove(findWorkout);

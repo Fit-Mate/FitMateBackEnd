@@ -1,5 +1,6 @@
 package FitMate.FitMateBackend.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class BodyPart {
     @ManyToMany(mappedBy = "bodyParts")
     private List<Workout> workouts = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "body_part_machine",
         joinColumns = @JoinColumn(name = "body_part_id"),

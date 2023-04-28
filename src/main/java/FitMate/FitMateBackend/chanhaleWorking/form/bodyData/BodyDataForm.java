@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.chanhaleWorking.form.user;
+package FitMate.FitMateBackend.chanhaleWorking.form.bodyData;
 
 import lombok.*;
 

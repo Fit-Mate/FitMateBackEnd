@@ -1,6 +1,6 @@
 package FitMate.FitMateBackend.chanhaleWorking.deprecated.dto.recommendation;
 
-import FitMate.FitMateBackend.chanhaleWorking.deprecated.dto.BodyDataDto;
+import FitMate.FitMateBackend.chanhaleWorking.dto.BodyDataDto;
 /**
  * 보조제 추천, 운동 추천 dto 들의 부모클래스
  */

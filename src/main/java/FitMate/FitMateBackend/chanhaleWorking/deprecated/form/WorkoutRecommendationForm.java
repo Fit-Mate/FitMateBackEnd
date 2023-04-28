@@ -1,6 +1,6 @@
 package FitMate.FitMateBackend.chanhaleWorking.deprecated.form;
 
-import FitMate.FitMateBackend.chanhaleWorking.form.user.BodyDataForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.bodyData.BodyDataForm;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

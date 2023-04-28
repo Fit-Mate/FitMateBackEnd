@@ -1,6 +1,6 @@
 package FitMate.FitMateBackend.domain;
 
-import FitMate.FitMateBackend.chanhaleWorking.form.user.BodyDataForm;
+import FitMate.FitMateBackend.chanhaleWorking.form.bodyData.BodyDataForm;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +31,7 @@ public class BodyData {
 
     public static BodyData createBodyData(BodyDataForm bodyDataForm) {
         BodyData bodyData = new BodyData();
-        bodyData.date = LocalDate.now();
+        bodyData.date = bodyDataForm.getDate();
         bodyData.height = bodyDataForm.getHeight();
         bodyData.weight = bodyDataForm.getWeight();
         bodyData.upperBodyFat = bodyDataForm.getUpperBodyFat();

@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.cjjsWorking.controller;
+package FitMate.FitMateBackend.cjjsWorking.controller.adminController;
 
 import FitMate.FitMateBackend.cjjsWorking.service.BodyPartService;
 import FitMate.FitMateBackend.consts.SessionConst;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class bodyPartController {
+public class AdminBodyPartController {
 
     private final BodyPartService bodyPartService;
 

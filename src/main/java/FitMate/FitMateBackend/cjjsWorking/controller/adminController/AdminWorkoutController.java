@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.cjjsWorking.controller;
+package FitMate.FitMateBackend.cjjsWorking.controller.adminController;
 
 import FitMate.FitMateBackend.chanhaleWorking.service.FileStoreService;
 import FitMate.FitMateBackend.cjjsWorking.form.WorkoutForm;
@@ -7,10 +7,8 @@ import FitMate.FitMateBackend.cjjsWorking.service.WorkoutService;
 import FitMate.FitMateBackend.consts.ServiceConst;
 import FitMate.FitMateBackend.consts.SessionConst;
 import FitMate.FitMateBackend.domain.BodyPart;
-import FitMate.FitMateBackend.domain.Machine;
 import FitMate.FitMateBackend.domain.User;
 import FitMate.FitMateBackend.domain.Workout;
-import FitMate.FitMateBackend.domain.supplement.Supplement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -30,7 +28,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class WorkoutController {
+public class AdminWorkoutController {
 
     private final WorkoutService workoutService;
     private final BodyPartRepository bodyPartRepository;

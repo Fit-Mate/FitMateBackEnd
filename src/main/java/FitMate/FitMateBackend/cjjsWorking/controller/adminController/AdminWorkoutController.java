@@ -1,6 +1,8 @@
 package FitMate.FitMateBackend.cjjsWorking.controller.adminController;
 
 import FitMate.FitMateBackend.chanhaleWorking.service.FileStoreService;
+import FitMate.FitMateBackend.cjjsWorking.dto.workout.WorkoutDto;
+import FitMate.FitMateBackend.cjjsWorking.dto.workout.WorkoutResponseDto;
 import FitMate.FitMateBackend.cjjsWorking.form.WorkoutForm;
 import FitMate.FitMateBackend.cjjsWorking.repository.BodyPartRepository;
 import FitMate.FitMateBackend.cjjsWorking.service.WorkoutService;
@@ -11,7 +13,6 @@ import FitMate.FitMateBackend.domain.User;
 import FitMate.FitMateBackend.domain.Workout;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -22,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,17 +82,17 @@ public class AdminWorkoutController {
     }
 
     @GetMapping("admin/workouts/{workoutId}") //단건 조회 (TEST 완료)
-    public GetWorkoutResponse findWorkout(@PathVariable("workoutId") Long workoutId,
-                                                @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+    public WorkoutResponseDto findWorkout(@PathVariable("workoutId") Long workoutId,
+                                          @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
 
         Workout findWorkout = workoutService.findOne(workoutId);
-        return new GetWorkoutResponse(findWorkout.getEnglishName(), findWorkout.getKoreanName(), findWorkout.getVideoLink(),
+        return new WorkoutResponseDto(findWorkout.getEnglishName(), findWorkout.getKoreanName(), findWorkout.getVideoLink(),
                 findWorkout.getDescription(), findWorkout.getBodyParts());
     }
 
     @GetMapping("admin/workouts/list/{page}") //batch 단위 조회 (TEST 완료)
     public List<WorkoutDto> findWorkouts_page(@PathVariable("page") int page,
-                                           @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+                                              @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
         int offset = (page-1)*10;
         int limit = ((page*10)-1);
 
@@ -125,45 +125,4 @@ public class AdminWorkoutController {
         private List<String> bodyPartKoreanName;
         private MultipartFile image;
     }
-
-    @Data
-    static class GetWorkoutResponse {
-        private String englishName;
-        private String koreanName;
-        private String videoLink;
-        private String description;
-        private List<String> bodyPartKoreanName = new ArrayList<>();
-
-        public GetWorkoutResponse(String englishName, String koreanName, String videoLink, String description, List<BodyPart> bodyParts) {
-            this.englishName = englishName;
-            this.koreanName = koreanName;
-            this.videoLink = videoLink;
-            this.description = description;
-            for (BodyPart bodyPart : bodyParts) {
-                this.bodyPartKoreanName.add(bodyPart.getKoreanName());
-            }
-        }
-    }
-
-    @Getter
-    static class WorkoutDto {
-        private Long id;
-        private String englishName;
-        private String koreanName;
-        private String videoLink;
-        private String description;
-        private List<String> bodyPartKoreanName = new ArrayList<>();
-
-        public WorkoutDto(Workout workout) {
-            this.id = workout.getId();
-            this.englishName = workout.getEnglishName();
-            this.koreanName = workout.getKoreanName();
-            this.videoLink = workout.getVideoLink();
-            this.description = workout.getVideoLink();
-            for (BodyPart bodyPart : workout.getBodyParts()) {
-                bodyPartKoreanName.add(bodyPart.getKoreanName());
-            }
-        }
-    }
-
 }

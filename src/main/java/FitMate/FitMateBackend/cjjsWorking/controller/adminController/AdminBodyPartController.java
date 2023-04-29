@@ -1,5 +1,6 @@
-package FitMate.FitMateBackend.cjjsWorking.controller;
+package FitMate.FitMateBackend.cjjsWorking.controller.adminController;
 
+import FitMate.FitMateBackend.cjjsWorking.dto.bodyPart.BodyPartResponseDto;
 import FitMate.FitMateBackend.cjjsWorking.service.BodyPartService;
 import FitMate.FitMateBackend.consts.SessionConst;
 import FitMate.FitMateBackend.domain.BodyPart;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class bodyPartController {
+public class AdminBodyPartController {
 
     private final BodyPartService bodyPartService;
 
@@ -59,11 +60,11 @@ public class bodyPartController {
     }
 
     @GetMapping("admin/bodyParts/{bodyPartId}") //운동 부위 단일 조회 (TEST 완료)
-    public GetBodyPartResponse findBodyPart(@PathVariable("bodyPartId") Long bodyPartId,
-                                 @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+    public BodyPartResponseDto findBodyPart(@PathVariable("bodyPartId") Long bodyPartId,
+                                            @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
 
         BodyPart findBodyPart = bodyPartService.findOne(bodyPartId);
-        return new GetBodyPartResponse(findBodyPart.getEnglishName(), findBodyPart.getKoreanName());
+        return new BodyPartResponseDto(findBodyPart.getEnglishName(), findBodyPart.getKoreanName());
     }
 
     @DeleteMapping("admin/bodyParts/{bodyPartId}") //운동 부위 삭제 (TEST 완료)
@@ -99,19 +100,6 @@ public class bodyPartController {
             }
         }
     }
-
-    @Data
-    static class GetBodyPartResponse {
-        private String englishName;
-        private String koreanName;
-
-        public GetBodyPartResponse(String englishName, String koreanName) {
-            this.englishName = englishName;
-            this.koreanName = koreanName;
-        }
-    }
-
-
 
     @Getter
     static class BodyPartDto {

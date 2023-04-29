@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.cjjsWorking.controller;
+package FitMate.FitMateBackend.cjjsWorking.controller.adminController;
 
 import FitMate.FitMateBackend.cjjsWorking.repository.BodyPartRepository;
 import FitMate.FitMateBackend.cjjsWorking.service.MachineService;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class MachineController {
+public class AdminMachineController {
 
     private final MachineService machineService;
     private final BodyPartRepository bodyPartRepository;

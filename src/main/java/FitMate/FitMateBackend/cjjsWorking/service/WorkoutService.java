@@ -2,12 +2,14 @@ package FitMate.FitMateBackend.cjjsWorking.service;
 
 import FitMate.FitMateBackend.cjjsWorking.repository.BodyPartRepository;
 import FitMate.FitMateBackend.cjjsWorking.repository.WorkoutRepository;
+import FitMate.FitMateBackend.cjjsWorking.repository.WorkoutSearch;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Workout;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,5 +59,28 @@ public class WorkoutService {
         Workout findWorkout = workoutRepository.findById(workoutId);
         workoutRepository.remove(findWorkout);
         return workoutId;
+    }
+
+    /////////////////////////////////////////////////////////////////
+
+    public List<Workout> findSearchAll(int offset, int limit, WorkoutSearch search) {
+        List<Workout> searchWorkouts = workoutRepository.findSearchAll(offset, limit, search);
+
+        if(search.getBodyPartKoreanName() == null) {
+            return searchWorkouts;
+        }
+
+        List<Workout> findWorkouts = new ArrayList<>();
+        for (Workout workout : searchWorkouts) {
+            int count = 0;
+            for (BodyPart bodyPart : workout.getBodyParts()) {
+                if(search.getBodyPartKoreanName().contains(bodyPart.getKoreanName())) count++;
+                if(count == search.getBodyPartKoreanName().size() && !findWorkouts.contains(workout))
+                    findWorkouts.add(workout);
+
+            }
+        }
+
+        return findWorkouts;
     }
 }

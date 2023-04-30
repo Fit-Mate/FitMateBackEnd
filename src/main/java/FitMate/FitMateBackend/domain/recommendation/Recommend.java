@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.domain.chatGPT;
+package FitMate.FitMateBackend.domain.recommendation;
 
 import FitMate.FitMateBackend.domain.BodyData;
 import FitMate.FitMateBackend.domain.User;
@@ -17,15 +17,18 @@ public abstract class Recommend {
     @Column(name = "recommend_id")
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name="user_id")
-//    private User user;
-//
-//    @ManyToOne
-//    @JoinColumn(name="body_data_id")
-//    private BodyData bodyData;
+    private String recommendationType; // Workout, Supplement
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
+    @ManyToOne
+    @JoinColumn(name="body_data_id")
+    private BodyData bodyData;
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 }

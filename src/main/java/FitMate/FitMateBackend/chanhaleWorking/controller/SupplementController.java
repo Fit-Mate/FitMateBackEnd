@@ -55,8 +55,10 @@ public class SupplementController {
     public List<SupplementListDto> getSupplementList(@PathVariable("pageNum") Long pageNum){
         List<Supplement> supplementList = supplementService.getSupplementBatch(pageNum);
         List<SupplementListDto> supplementDtoList = new ArrayList<>();
+        log.info("supplement.createIntroduction()");
         for (Supplement supplement : supplementList) {
             supplementDtoList.add(new SupplementListDto(supplement));
+            log.info(supplement.createIntroduction());
         }
         return supplementDtoList;
     }
@@ -73,6 +75,7 @@ public class SupplementController {
         List<SupplementListDto> supplementListDtoList = new ArrayList<>();
         for (Supplement supplement : supplementList) {
             supplementListDtoList.add(new SupplementListDto(supplement));
+            log.info(supplement.createIntroduction());
         }
         return supplementListDtoList;
     }

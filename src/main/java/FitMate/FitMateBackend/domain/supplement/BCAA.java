@@ -15,6 +15,9 @@ import lombok.Setter;
 public class BCAA extends Supplement {
 
 
+    private Float leucine;
+    private Float IsoLeucine;
+    private Float Valine;
     public BCAA(SupplementForm supplementForm) {
         super(supplementForm);
     }
@@ -22,4 +25,15 @@ public class BCAA extends Supplement {
         super.updateFields(supplementForm);
     }
 
+    @Override
+    public String createIntroduction() {
+        return "{" +
+                "Number: "+this.getId()+", "+
+                "type: "+this.getType()+", "+
+                "price: "+(this.getPrice() / this.getServings())+"won, "+
+                "leucine: 2.5g, "+
+                "Isoleucine: 1.25g, "+
+                "Valine: 1.25g}"
+                ;
+    }
 }

@@ -33,15 +33,15 @@ public class SupplementForm {
         if (servings < 0) {
             return "잘못된 serving 정보";
         }
-        if (proteinPerServing < 0) {
-            return "잘못된 protein per serving 정보";
-        }
-        if (fatPerServing < 0) {
-            return "잘못된 fat per serving 정보";
-        }
-        if (carbohydratePerServing < 0) {
-            return "잘못된 carbohydrate per serving 정보";
-        }
+//        if (proteinPerServing < 0) {
+//            return "잘못된 protein per serving 정보";
+//        }
+//        if (fatPerServing < 0) {
+//            return "잘못된 fat per serving 정보";
+//        }
+//        if (carbohydratePerServing < 0) {
+//            return "잘못된 carbohydrate per serving 정보";
+//        }
         return "ok";
     }
 }

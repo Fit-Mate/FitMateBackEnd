@@ -2,6 +2,7 @@ package FitMate.FitMateBackend.domain;
 
 import FitMate.FitMateBackend.chanhaleWorking.form.user.RegisterForm;
 import FitMate.FitMateBackend.chanhaleWorking.form.user.UpdateUserForm;
+import FitMate.FitMateBackend.domain.recommendation.Recommend;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,9 +35,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<BodyData> bodyDataHistory = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Recommend> recommendationHistory = new ArrayList<>();
+
     public void addBodyDataHistory(BodyData bodyData){
         bodyDataHistory.add(bodyData);
         bodyData.setUser(this);
+    }
+
+    public void addRecommendationHistory(Recommend recommend) {
+        recommendationHistory.add(recommend);
+        recommend.setUser(this);
     }
     public static User createUser(RegisterForm form, String type) {
         User user = new User();

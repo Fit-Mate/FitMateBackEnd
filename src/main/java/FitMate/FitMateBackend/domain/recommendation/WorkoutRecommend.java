@@ -1,11 +1,7 @@
-package FitMate.FitMateBackend.domain.chatGPT;
+package FitMate.FitMateBackend.domain.recommendation;
 
-import FitMate.FitMateBackend.domain.BodyPart;
-import FitMate.FitMateBackend.domain.Machine;
 import jakarta.persistence.*;
 import lombok.Getter;
-
-import java.util.List;
 
 @Entity
 @Getter

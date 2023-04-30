@@ -20,10 +20,12 @@ public abstract class Supplement {
     private String koreanName;
     private Integer price;
     private Float servings;
+    @Column(length = 2000)
     private String description;
     private String marketURL;
     private String flavor;
     private SupplementType type;
+    private Float gramsPerServing;
 
     // 앞에 디렉터리 정보를 제외한 상대경로를 저장
     private String imagePath;
@@ -53,4 +55,6 @@ public abstract class Supplement {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
+
+    public abstract String createIntroduction();
 }

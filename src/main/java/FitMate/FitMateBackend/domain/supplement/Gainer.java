@@ -33,4 +33,16 @@ public class Gainer extends Supplement {
         this.source = supplementForm.getSource();
     }
 
+
+    @Override
+    public String createIntroduction() {
+        return "{" +
+                "Number: "+this.getId()+", "+
+                "type: "+this.getType()+", "+
+                "price: "+(this.getPrice() / this.getServings())+"won, "+
+                "protein: "+this.proteinPerServing+"g, "+
+                "fat: "+this.fatPerServing+"g, "+
+                "carbohydrate: "+this.carbohydratePerServing+"g}"
+                ;
+    }
 }

@@ -1,4 +1,4 @@
-package FitMate.FitMateBackend.chanhaleWorking.deprecated.form;
+package FitMate.FitMateBackend.chanhaleWorking.form.recommendation;
 
 import FitMate.FitMateBackend.domain.Purpose;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SupplementRecommendationForm {
-    private Long bodyDataId;
     private Long monthlyBudget;
     private List<Purpose> purpose;
 }

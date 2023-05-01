@@ -19,8 +19,8 @@ public class UserBodyPartController {
 
     private final BodyPartService bodyPartService;
 
-    @GetMapping("bodyParts/all") // 전체조회 (완료)
-    public AllBodyPartResponseDto findBodyParts(@SessionAttribute(name = SessionConst.LOGIN_USER) User user) {
+    @GetMapping("bodyParts/all") // 전체조회 (TEST 완료)
+    public AllBodyPartResponseDto findBodyParts(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user) {
         List<BodyPart> findBodyParts = bodyPartService.findAll();
         return new AllBodyPartResponseDto(findBodyParts);
     }

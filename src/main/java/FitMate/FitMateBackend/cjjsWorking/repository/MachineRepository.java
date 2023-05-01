@@ -22,12 +22,18 @@ public class MachineRepository {
         return em.find(Machine.class, id);
     }
 
+    // Overloading
+    public List<Machine> findAll() {
+        return em.createQuery("select m from Machine m", Machine.class)
+                .getResultList();
+    }
     public List<Machine> findAll(int offset, int limit) {
         return em.createQuery("select m from Machine m", Machine.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
     }
+    // Overloading
 
     public void remove(Machine machine) {
         em.remove(machine);

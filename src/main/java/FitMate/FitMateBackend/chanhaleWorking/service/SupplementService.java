@@ -149,7 +149,7 @@ public class SupplementService {
     public String getSupplementString() {
         if (supplementString.equals("")) {
             for (Supplement s : supplementRepository.findAll()) {
-                supplementString.concat(s.createIntroduction());
+                supplementString = supplementString.concat(s.createIntroduction());
             }
         }
         return supplementString;
@@ -158,7 +158,7 @@ public class SupplementService {
     private void updateSupplementString(){
         supplementString = "";
         for (Supplement s : supplementRepository.findAll()) {
-            supplementString.concat(s.createIntroduction());
+            supplementString = supplementString.concat(s.createIntroduction());
         }
     }
     public List<Supplement> searchSupplementBatch(Long page, SupplementSearchForm form){

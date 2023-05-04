@@ -19,7 +19,9 @@ public class RecommendedSupplement {
 
 
     private Long supplementId;
+    @Column(length = 2000)
     private String englishRecommendationString;
+    @Column(length = 2000)
     private String koreanRecommendationString;
 
     public static RecommendedSupplement createRecommendedSupplement(Long supplementId, String englishRecommendationString) {

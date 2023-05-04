@@ -9,6 +9,6 @@ public interface ServiceConst {
     public static final String DEFAULT_IMAGE_PATH = "Untitled_Artwork.png";
     // recommend 에서 보충제를 식별하기 위해 두르는 접두사, 접미사
     // ex) 53번 보충제: RECOMMEND_PREFIX+53+RECOMMEND_SUFFIX
-    public static final String RECOMMEND_PREFIX = "[";
-    public static final String RECOMMEND_SUFFIX = "]";
+    public static final String RECOMMEND_PREFIX = "<<";
+    public static final String RECOMMEND_SUFFIX = ">>";
 }

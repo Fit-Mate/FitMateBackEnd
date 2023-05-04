@@ -7,30 +7,27 @@ import FitMate.FitMateBackend.domain.Purpose;
 import FitMate.FitMateBackend.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Slf4j
 @DiscriminatorValue("Supplement")
 public class SupplementRecommendation extends Recommendation {
 
     private Long monthlyBudget; // 예산
-    private String purposes; // purposes 들을 and 로 묶은 것
+    private String purposes = ""; // purposes 들을 and 로 묶은 것
 
     @OneToMany
     List<RecommendedSupplement> recommendedSupplements = new ArrayList<>();
 
 
-    @Override
-    public void updateRecommend(String gptResponse) {
-        int numStart = gptResponse.indexOf(ServiceConst.RECOMMEND_PREFIX);
-        int numEnd = gptResponse.indexOf(ServiceConst.RECOMMEND_SUFFIX);
-        Long number = Long.parseLong(gptResponse.substring(numStart + ServiceConst.RECOMMEND_PREFIX.length(), numEnd));
-        int strEnd = gptResponse.indexOf(ServiceConst.RECOMMEND_PREFIX, numStart + 1);
-        String str = gptResponse.substring(numEnd + ServiceConst.RECOMMEND_SUFFIX.length(), strEnd);
-        recommendedSupplements.add(RecommendedSupplement.createRecommendedSupplement(number, str));
+
+    public void addRecommendSupplements(RecommendedSupplement recommendedSupplement) {
+        recommendedSupplements.add(recommendedSupplement);
     }
 
     public static SupplementRecommendation createSupplementRecommendation(BodyData bodyData, User user, List<Purpose> purposes, Long monthlyBudget) {
@@ -38,6 +35,7 @@ public class SupplementRecommendation extends Recommendation {
         supplementRecommendation.setBodyData(bodyData);
         supplementRecommendation.setUser(user);
         Long idx = 0L;
+        log.info(purposes.get(0).name());
         for (Purpose purpose : purposes) {
             idx++;
             supplementRecommendation.purposes.concat(purpose.name());
@@ -48,18 +46,20 @@ public class SupplementRecommendation extends Recommendation {
         supplementRecommendation.monthlyBudget = monthlyBudget;
         supplementRecommendation.setRecommendationType("Supplement");
         String qString = "suggest up to 3 supplements in this list. For a ";
-        qString.concat(user.getSex() == "남성" ? "man" : "woman").concat(" who is ");
-        qString.concat(bodyData.describe()).concat(user.getSex() == "남성" ? " His" : " Her")
+        qString = qString.concat(user.getSex() == "남성" ? "man" : "woman").concat(" who is ");
+        qString = qString.concat(bodyData.describe());
+        log.info(bodyData.describe());
+        qString = qString.concat(user.getSex() == "남성" ? " His" : " Her")
                 .concat(" purpose is ");
         idx = 0L;
         for (Purpose purpose : purposes) {
             idx++;
-            qString.concat(EnglishPurpose.values()[purpose.ordinal()].name());
+            qString = qString.concat(EnglishPurpose.values()[purpose.ordinal()].name());
             if (idx < purposes.size()) {
-                qString.concat(" and ");
+                qString = qString.concat(" and ");
             }
         }
-        qString.concat(". your budget is ").concat(monthlyBudget.toString()).concat("Won.");
+        qString = qString.concat(". your budget is ").concat(monthlyBudget.toString()).concat("Won.");
         supplementRecommendation.setQueryText(qString);
         return supplementRecommendation;
     }

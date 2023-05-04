@@ -38,7 +38,7 @@ public class Protein extends Supplement {
     @Override
     public String createIntroduction() {
         return "{" +
-                "Number: "+ ServiceConst.RECOMMEND_PREFIX +this.getId()+", "+ ServiceConst.RECOMMEND_SUFFIX+
+                "Name: \""+ ServiceConst.RECOMMEND_PREFIX +this.getId()+ ServiceConst.RECOMMEND_SUFFIX+"\", "+
                 "type: "+this.getType()+", "+
                 "price: "+(this.getPrice() / this.getServings())+"won, "+
                 "protein: "+this.proteinPerServing+"g, "+

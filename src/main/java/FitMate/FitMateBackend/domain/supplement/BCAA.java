@@ -29,7 +29,7 @@ public class BCAA extends Supplement {
     @Override
     public String createIntroduction() {
         return "{" +
-                "Number: "+ ServiceConst.RECOMMEND_PREFIX +this.getId()+", "+ ServiceConst.RECOMMEND_SUFFIX+
+                "Name: \""+ ServiceConst.RECOMMEND_PREFIX +this.getId()+ ServiceConst.RECOMMEND_SUFFIX+"\", "+
                 "type: "+this.getType()+", "+
                 "price: "+(this.getPrice() / this.getServings())+"won, "+
                 "leucine: 2.5g, "+

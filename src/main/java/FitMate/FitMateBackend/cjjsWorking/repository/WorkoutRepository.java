@@ -53,6 +53,6 @@ public class WorkoutRepository {
         }
         System.out.println(name);
         System.out.println(QWorkout.workout.koreanName);
-        return QWorkout.workout.koreanName.like(name);
+        return QWorkout.workout.koreanName.like("%" + name + "%");
     }
 }

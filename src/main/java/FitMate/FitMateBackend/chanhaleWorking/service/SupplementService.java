@@ -21,6 +21,8 @@ import java.util.List;
 public class SupplementService {
     private final SupplementRepository supplementRepository;
 
+    private String supplementString = "";
+
     @Transactional
     public Long createSupplement(SupplementForm supplementForm) throws IOException {
         Supplement supplement;
@@ -40,6 +42,7 @@ public class SupplementService {
             supplement.setImagePath(ServiceConst.DEFAULT_IMAGE_PATH);
 
         supplementRepository.save(supplement);
+        updateSupplementString();
         return supplement.getId();
     }
 
@@ -77,14 +80,17 @@ public class SupplementService {
                 if (supplement.getType() == SupplementType.BCAA) {
                     BCAA sp = (BCAA)supplement;
                     sp.updateFields(supplementForm);
+                    updateSupplementString();
                     return id;
                 } else if (supplement.getType() == SupplementType.Gainer) {
                     Gainer sp = (Gainer) supplement;
                     sp.updateFields(supplementForm);
+                    updateSupplementString();
                     return id;
                 } else if (supplement.getType() == SupplementType.Protein) {
                     Protein sp = (Protein) supplement;
                     sp.updateFields(supplementForm);
+                    updateSupplementString();
                     return id;
                 }
                 log.error("update할 대상의 SupplementType 필드와 매칭되는 SupplementType이 없음");
@@ -140,6 +146,21 @@ public class SupplementService {
         return supplementRepository.getSupplementBatch(page);
     }
 
+    public String getSupplementString() {
+        if (supplementString.equals("")) {
+            for (Supplement s : supplementRepository.findAll()) {
+                supplementString.concat(s.createIntroduction());
+            }
+        }
+        return supplementString;
+    }
+
+    private void updateSupplementString(){
+        supplementString = "";
+        for (Supplement s : supplementRepository.findAll()) {
+            supplementString.concat(s.createIntroduction());
+        }
+    }
     public List<Supplement> searchSupplementBatch(Long page, SupplementSearchForm form){
         return supplementRepository.searchSupplement(page, form.getSupplementType(), form.getSearchKeyword());
     }

@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.chanhaleWorking.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 
 public class ChatGptConfig {
     public static final String AUTHORIZATION = "Authorization";
@@ -10,11 +11,4 @@ public class ChatGptConfig {
     public static final String MEDIA_TYPE = "application/json; charset=UTF-8";
     public static final String URL = "https://api.openai.com/v1/chat/completions";
 
-    @Value("${api-key}")
-    private String apiKey;
-
-    public String getApiKey()
-    {
-        return apiKey;
-    }
 }

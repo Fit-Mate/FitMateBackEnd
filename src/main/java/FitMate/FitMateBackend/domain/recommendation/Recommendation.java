@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "recommends")
 @Getter
@@ -19,7 +21,9 @@ public abstract class Recommendation {
 
     private String recommendationType; // Workout, Supplement
 
+    @Column(length = 2000)
     private String queryText; // 질문에 들어간 텍스트
+    private LocalDate date = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -33,6 +37,5 @@ public abstract class Recommendation {
         this.user = user;
     }
 
-    public abstract void updateRecommend(String gptResponse);
 
 }

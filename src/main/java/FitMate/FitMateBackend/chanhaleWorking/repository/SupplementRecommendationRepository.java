@@ -4,6 +4,7 @@ import FitMate.FitMateBackend.domain.recommendation.Recommendation;
 import FitMate.FitMateBackend.domain.recommendation.SupplementRecommendation;
 import FitMate.FitMateBackend.domain.supplement.Supplement;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 @Slf4j
 public class SupplementRecommendationRepository {
+    @PersistenceContext
     private final EntityManager em;
 
     public void save(Recommendation recommendation){
@@ -22,10 +24,9 @@ public class SupplementRecommendationRepository {
         }
     }
     public SupplementRecommendation findById(Long id) {
-        Recommendation recommendation = em.find(Recommendation.class, id);
-        if(recommendation instanceof SupplementRecommendation)
-            return (SupplementRecommendation) recommendation;
-        return null;
+        SupplementRecommendation recommendation = em.find(SupplementRecommendation.class, id);
+        log.info(recommendation.getId().toString());
+        return recommendation;
     }
 
 }

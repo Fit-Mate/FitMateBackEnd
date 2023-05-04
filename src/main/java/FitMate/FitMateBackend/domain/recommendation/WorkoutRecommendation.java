@@ -7,10 +7,7 @@ import lombok.Getter;
 @Getter
 @DiscriminatorValue("Workout")
 public class WorkoutRecommendation extends Recommendation {
-    @Override
-    public void updateRecommend(String gptResponse) {
-        //TODO
-    }
+
 
 //    @OneToMany(mappedBy = "recommend")
 //    private List<BodyPart> bodyPart;

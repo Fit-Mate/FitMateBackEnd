@@ -38,6 +38,8 @@ public class SupplementRepository {
             em.remove(supplement);
         }
     }
+    public List<Supplement> findAll(){
+        return em.createQuery("select s from Supplement s", Supplement.class).getResultList();}
 
     public List<Supplement> getSupplementBatch(Long page) {
         return em.createQuery("select s from Supplement s order by s.id", Supplement.class)

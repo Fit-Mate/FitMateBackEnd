@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.domain.supplement;
 
 import FitMate.FitMateBackend.chanhaleWorking.form.supplement.SupplementForm;
+import FitMate.FitMateBackend.consts.ServiceConst;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -37,7 +38,7 @@ public class Gainer extends Supplement {
     @Override
     public String createIntroduction() {
         return "{" +
-                "Number: "+this.getId()+", "+
+                "Number: "+ ServiceConst.RECOMMEND_PREFIX +this.getId()+", "+ ServiceConst.RECOMMEND_SUFFIX+
                 "type: "+this.getType()+", "+
                 "price: "+(this.getPrice() / this.getServings())+"won, "+
                 "protein: "+this.proteinPerServing+"g, "+

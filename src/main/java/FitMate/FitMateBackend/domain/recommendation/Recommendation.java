@@ -11,13 +11,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @DiscriminatorColumn(name = "recommend_type")
-public abstract class Recommend {
+public abstract class Recommendation {
     @Id
     @GeneratedValue
     @Column(name = "recommend_id")
     private Long id;
 
     private String recommendationType; // Workout, Supplement
+
+    private String queryText; // 질문에 들어간 텍스트
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -30,5 +32,7 @@ public abstract class Recommend {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public abstract void updateRecommend(String gptResponse);
 
 }

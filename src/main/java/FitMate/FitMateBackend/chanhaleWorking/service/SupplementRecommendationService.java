@@ -4,11 +4,13 @@ import FitMate.FitMateBackend.chanhaleWorking.config.ChatGptConfig;
 import FitMate.FitMateBackend.chanhaleWorking.form.recommendation.SupplementRecommendationForm;
 import FitMate.FitMateBackend.chanhaleWorking.repository.RecommendedSupplementRepository;
 import FitMate.FitMateBackend.chanhaleWorking.repository.SupplementRecommendationRepository;
+import FitMate.FitMateBackend.chanhaleWorking.repository.SupplementRepository;
 import FitMate.FitMateBackend.chanhaleWorking.repository.UserRepository;
 import FitMate.FitMateBackend.consts.ServiceConst;
 import FitMate.FitMateBackend.domain.User;
 import FitMate.FitMateBackend.domain.recommendation.RecommendedSupplement;
 import FitMate.FitMateBackend.domain.recommendation.SupplementRecommendation;
+import FitMate.FitMateBackend.domain.supplement.Supplement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import java.util.List;
 public class SupplementRecommendationService {
     private final SupplementRecommendationRepository supplementRecommendationRepository;
     private final UserRepository userRepository;
+    private final SupplementRepository supplementRepository;
     private final RecommendedSupplementRepository recommendedSupplementRepository;
 
     @Transactional
@@ -39,13 +42,13 @@ public class SupplementRecommendationService {
         return supplementRecommendation.getId();
     }
 
-    public SupplementRecommendation findById(Long supplementRecommendationId) {
-        return supplementRecommendationRepository.findById(supplementRecommendationId);
+    public SupplementRecommendation findById(Long userId, Long supplementRecommendationId) {
+        return supplementRecommendationRepository.findById(userId, supplementRecommendationId);
     }
 
     @Transactional
-    public void updateGptResponse(Long recommendationId, String response) {
-        SupplementRecommendation supplementRecommendation = supplementRecommendationRepository.findById(recommendationId);
+    public void updateGptResponse(Long userId, Long recommendationId, String response) {
+        SupplementRecommendation supplementRecommendation = supplementRecommendationRepository.findById(userId, recommendationId);
         if (supplementRecommendation == null)
             return;
 
@@ -63,13 +66,21 @@ public class SupplementRecommendationService {
                 strEnd = response.length()-1;
             }
             String str = response.substring(numEnd + ServiceConst.RECOMMEND_SUFFIX.length(), strEnd);
-            RecommendedSupplement recommendedSupplement = RecommendedSupplement.createRecommendedSupplement(number, str);
+            Supplement supplement = supplementRepository.findById(number);
+            if (supplement == null) {
+                continue;
+            }
+            RecommendedSupplement recommendedSupplement = RecommendedSupplement.createRecommendedSupplement(supplement, str);
             recommendedSupplementRepository.save(recommendedSupplement);
             supplementRecommendation.addRecommendSupplements(recommendedSupplement);
         }
     }
 
-    public SupplementRecommendation getSupplementRecommendation(Long id) {
-        return supplementRecommendationRepository.findById(id);
+    public SupplementRecommendation getSupplementRecommendation(Long userId, Long supplementRecommendationId) {
+        return supplementRecommendationRepository.findById(userId, supplementRecommendationId);
+    }
+
+    public List<SupplementRecommendation> getSupplementRecommendationBatch(Long userId, Long pageNumber) {
+        return supplementRecommendationRepository.getBatch(userId, pageNumber);
     }
 }

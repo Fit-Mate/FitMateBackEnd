@@ -33,7 +33,7 @@ public class ChatGptService {
  * input으로 recommendationID와 chat GPT에게 넘길 질문을 넘긴다.
  */
     @Async("threadPoolTaskExecutor")
-    public void sendRequest(Long recommendationId, String question) {
+    public void sendRequest(Long userId, Long recommendationId, String question) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(ChatGptConfig.MEDIA_TYPE));
@@ -46,6 +46,6 @@ public class ChatGptService {
 
         String gptResponse = responseEntity.getBody().getChoices().get(0).getMessage().get("content");
         // recommend 서비스에게 recommendation에 gpt추천문을 업데이트 하라고 요청
-        supplementRecommendationService.updateGptResponse(recommendationId, gptResponse);
+        supplementRecommendationService.updateGptResponse(userId, recommendationId, gptResponse);
     }
 }

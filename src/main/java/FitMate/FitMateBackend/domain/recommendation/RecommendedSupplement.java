@@ -1,5 +1,6 @@
 package FitMate.FitMateBackend.domain.recommendation;
 
+import FitMate.FitMateBackend.domain.supplement.Supplement;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,15 +19,16 @@ public class RecommendedSupplement {
     SupplementRecommendation supplementRecommendation;
 
 
-    private Long supplementId;
+    @ManyToOne
+    private Supplement supplement;
     @Column(length = 2000)
     private String englishRecommendationString;
     @Column(length = 2000)
     private String koreanRecommendationString;
 
-    public static RecommendedSupplement createRecommendedSupplement(Long supplementId, String englishRecommendationString) {
+    public static RecommendedSupplement createRecommendedSupplement(Supplement supplement, String englishRecommendationString) {
         RecommendedSupplement recommendedSupplement = new RecommendedSupplement();
-        recommendedSupplement.supplementId = supplementId;
+        recommendedSupplement.supplement = supplement;
         recommendedSupplement.englishRecommendationString = englishRecommendationString;
         return recommendedSupplement;
     }

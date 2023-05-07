@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -20,6 +21,12 @@ public class MachineRepository {
 
     public Machine findById(Long id) {
         return em.find(Machine.class, id);
+    }
+
+    public Machine findByKoreanName(String koreanName) {
+        return em.createQuery("select m from Machine m where m.koreanName = :koreanName", Machine.class)
+                .setParameter("koreanName", koreanName)
+                .getResultList().get(0);
     }
 
     // Overloading
@@ -39,4 +46,12 @@ public class MachineRepository {
         em.remove(machine);
     }
 
+    public List<Machine> findByMachineKoreanName(List<String> machineKoreanName) {
+        List<Machine> machines = new ArrayList<>();
+        for (String koreanName : machineKoreanName) {
+            Machine machine = findByKoreanName(koreanName);
+            machines.add(machine);
+        }
+        return machines;
+    }
 }

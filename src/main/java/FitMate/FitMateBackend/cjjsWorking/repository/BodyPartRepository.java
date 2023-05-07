@@ -1,10 +1,12 @@
 package FitMate.FitMateBackend.cjjsWorking.repository;
 
 import FitMate.FitMateBackend.domain.BodyPart;
+import FitMate.FitMateBackend.domain.Machine;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -42,5 +44,14 @@ public class BodyPartRepository {
 
     public void remove(BodyPart bodyPart) {
         em.remove(bodyPart);
+    }
+
+    public List<BodyPart> findByBodyPartKoreanName(List<String> bodyPartKoreanName) {
+        List<BodyPart> bodyParts = new ArrayList<>();
+        for (String koreanName : bodyPartKoreanName) {
+            BodyPart bodyPart = findByKoreanName(koreanName);
+            bodyParts.add(bodyPart);
+        }
+        return bodyParts;
     }
 }

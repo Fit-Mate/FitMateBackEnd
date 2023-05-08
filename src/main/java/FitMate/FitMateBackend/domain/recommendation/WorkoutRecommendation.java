@@ -11,8 +11,6 @@ import java.util.List;
 @Getter
 @DiscriminatorValue("Workout")
 public class WorkoutRecommendation extends Recommendation {
-    private String bodyPartQuery = "";
-    private String machineQuery = "";
 
     public static WorkoutRecommendation createWorkoutRecommendation
             (BodyData bodyData, User user, List<BodyPart> bodyParts, List<Machine> machines) {
@@ -22,16 +20,38 @@ public class WorkoutRecommendation extends Recommendation {
 
         workoutRecommendation.setRecommendationType("Workout");
 
-        //query문 수정 중
+        String bodyPartQuery = updateBodyPartQuery(bodyParts);
+        String machineQuery = updateMachineQuery(machines);
+
         String qString = "suggest up to 3 workouts in this list. For a ";
-        qString = qString.concat(user.getSex() == "남성" ? "man" : "woman").concat(" who is ");
+        qString = qString.concat(user.getSex().equals("남성") ? "man" : "woman").concat(" who is ");
         qString = qString.concat(bodyData.describe());
 
-        qString = qString.concat(user.getSex() == "남성" ? "His" : "Her").concat(" 가 원하는 운동 부위는 ");
-        if(!machines.isEmpty()) qString = qString.concat(user.getSex() == "남성" ? "His" : "Her").concat(" 가 원하는 운동 기구는 ");
-        //query문 수정 중
+        qString = qString.concat(user.getSex().equals("남성") ? " He" : " She").concat(" wants to work out").
+                concat(user.getSex().equals("남성") ? " His " : " Her ").concat(bodyPartQuery);
+        if(machineQuery != null) qString = qString.concat(" using ").concat(machineQuery);
+        qString = qString.concat(".");
 
         workoutRecommendation.setQueryText(qString);
         return workoutRecommendation;
+    }
+
+    public static String updateBodyPartQuery(List<BodyPart> bodyParts) {
+        String bodyPartQuery = bodyParts.get(0).getEnglishName();
+        for (int i = 1; i < bodyParts.size(); i++) {
+            if (i == (bodyParts.size()-1)) bodyPartQuery = bodyPartQuery.concat(" and ").concat(bodyParts.get(i).getEnglishName());
+            else bodyPartQuery = bodyPartQuery.concat(", ").concat(bodyParts.get(i).getEnglishName());
+        }
+        return bodyPartQuery;
+    }
+
+    public static String updateMachineQuery(List<Machine> machines) {
+        if(machines == null) return null;
+        String machineQuery = machines.get(0).getEnglishName();
+        for (int i = 1; i < machines.size(); i++) {
+            if (i == (machines.size()-1)) machineQuery = machineQuery.concat(" and ").concat(machines.get(i).getEnglishName());
+            else machineQuery = machineQuery.concat(", ").concat(machines.get(i).getEnglishName());
+        }
+        return machineQuery;
     }
 }

@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.domain.recommendation;
 
 import FitMate.FitMateBackend.domain.BodyData;
+import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;

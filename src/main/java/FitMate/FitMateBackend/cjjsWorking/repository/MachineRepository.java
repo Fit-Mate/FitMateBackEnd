@@ -47,6 +47,9 @@ public class MachineRepository {
     }
 
     public List<Machine> findByMachineKoreanName(List<String> machineKoreanName) {
+        if (machineKoreanName == null) {
+            return null;
+        }
         List<Machine> machines = new ArrayList<>();
         for (String koreanName : machineKoreanName) {
             Machine machine = findByKoreanName(koreanName);

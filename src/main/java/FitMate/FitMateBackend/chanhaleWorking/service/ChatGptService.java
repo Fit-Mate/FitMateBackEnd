@@ -52,7 +52,7 @@ public class ChatGptService {
     }
 
     @Async("threadPoolTaskExecutor")
-    public void sendWorkoutRequest(Long userId, Long recommendationId, String question) {
+    public void sendWorkoutRequest(Long userId, Long recommendationId, String question) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(ChatGptConfig.MEDIA_TYPE));
         headers.add(ChatGptConfig.AUTHORIZATION, ChatGptConfig.BEARER + apiKey);

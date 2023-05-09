@@ -4,6 +4,7 @@ import FitMate.FitMateBackend.chanhaleWorking.repository.UserRepository;
 import FitMate.FitMateBackend.chanhaleWorking.service.ChatGptService;
 import FitMate.FitMateBackend.cjjsWorking.dto.workout.RecommendData;
 import FitMate.FitMateBackend.cjjsWorking.dto.workout.WorkoutRecommendPageDto;
+import FitMate.FitMateBackend.cjjsWorking.repository.WorkoutRecommendationRepository;
 import FitMate.FitMateBackend.cjjsWorking.service.RecommendedWorkoutService;
 import FitMate.FitMateBackend.cjjsWorking.service.WorkoutRecommendationService;
 import FitMate.FitMateBackend.cjjsWorking.service.WorkoutService;
@@ -30,16 +31,18 @@ public class WorkoutRecommendationController {
     private final WorkoutService workoutService;
     private final ChatGptService chatGptService;
     private final RecommendedWorkoutService recommendedWorkoutService;
+    private final WorkoutRecommendationRepository workoutRecommendationRepository;
 
     @PostMapping("recommendation/workout")
     public Long getWorkoutRecommendation(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user,
-                                         @RequestBody WorkoutRecommendationRequest request) {
+                                         @RequestBody WorkoutRecommendationRequest request) throws Exception {
         Long recommendationId = workoutRecommendationService.
                 createWorkoutRecommendation(user.getId(), request.bodyPartKoreanName, request.machineKoreanName);
 
         WorkoutRecommendation workoutRecommendation = workoutRecommendationService.findById(recommendationId);
         String question = workoutService.getAllWorkoutToString().concat("\n");
         question = question.concat(workoutRecommendation.getQueryText());
+        workoutRecommendationRepository.updateQuery(workoutRecommendation);
         log.info(question);
 
         chatGptService.sendWorkoutRequest(user.getId(), workoutRecommendation.getId(), question);

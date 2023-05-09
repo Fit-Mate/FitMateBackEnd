@@ -23,46 +23,52 @@ public class AdminBodyPartController {
 
     private final BodyPartService bodyPartService;
 
-    @PostMapping("admin/bodyParts") //운동 부위 정보 등록 (TEST 완료) ok
-    public Long saveBodyPart(@SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,
+    @PostMapping("admin/bodyParts") //운동 부위 정보 등록 (TEST 완료)
+    public Long saveBodyPart(@SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin,
                              @RequestBody BodyPartRequest request) {
-            BodyPart bodyPart = new BodyPart();
-            bodyPart.update(request.englishName, request.koreanName);
+        if(admin == null) return null;
 
-            Long bodyPartId = bodyPartService.saveBodyPart(bodyPart);
-            return bodyPartId;
+        BodyPart bodyPart = new BodyPart();
+        bodyPart.update(request.englishName, request.koreanName);
+
+        Long bodyPartId = bodyPartService.saveBodyPart(bodyPart);
+        return bodyPartId;
     }
 
     @PutMapping("admin/bodyParts/{bodyPartId}") //운동 부위 정보 수정 (TEST 완료)
     public Long updateBodyPart(@PathVariable("bodyPartId") Long bodyPartId,
-                               @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,
+                               @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin,
                                @RequestBody BodyPartRequest request) {
+        if(admin == null) return null;
+
         bodyPartService.updateBodyPart(bodyPartId, request.englishName, request.koreanName);
         return bodyPartId;
     }
 
-    @GetMapping("admin/bodyParts/list") //운동 부위 전체 검색 (TEST 완료) ok
-    public GetAllBodyPartResponse findBodyPartAll(@SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+    @GetMapping("admin/bodyParts/list") //운동 부위 전체 검색 (TEST 완료)
+    public GetAllBodyPartResponse findBodyPartAll(@SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) {
+        if(admin == null) return null;
+
         List<BodyPart> findBodyParts = bodyPartService.findAll();
         return new GetAllBodyPartResponse(findBodyParts);
     }
 
-    @GetMapping("admin/bodyParts/list/{page}") //batch 단위 조회 (TEST 완료) ok
+    @GetMapping("admin/bodyParts/list/{page}") //batch 단위 조회 (TEST 완료)
     public List<BodyPartDto> findBodyParts_page(@PathVariable(value = "page") int page,
-                                            @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+                                            @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) {
+        if(admin == null) return null;
 
-        int offset = (page-1)*10;
-        int limit = ((page*10)-1);
-        List<BodyPart> findBodyParts = bodyPartService.findAll(offset, limit);
+        List<BodyPart> findBodyParts = bodyPartService.findAll(page);
 
         return findBodyParts.stream()
                 .map(b -> new BodyPartDto(b))
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("admin/bodyParts/{bodyPartId}") //운동 부위 단일 조회 (TEST 완료) ok
+    @GetMapping("admin/bodyParts/{bodyPartId}") //운동 부위 단일 조회 (TEST 완료)
     public BodyPartResponseDto findBodyPart(@PathVariable("bodyPartId") Long bodyPartId,
-                                            @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+                                            @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) {
+        if(admin == null) return null;
 
         BodyPart findBodyPart = bodyPartService.findOne(bodyPartId);
         return new BodyPartResponseDto(findBodyPart.getEnglishName(), findBodyPart.getKoreanName());
@@ -70,16 +76,18 @@ public class AdminBodyPartController {
 
     @DeleteMapping("admin/bodyParts/{bodyPartId}") //운동 부위 삭제 (TEST 완료)
     public Long removeBodyPart(@PathVariable("bodyPartId") Long bodyPartId,
-                               @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+                               @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) {
+        if(admin == null) return null;
+
         BodyPart findBodyPart = bodyPartService.findOne(bodyPartId);
 
-        //관련 machine 삭제
+        //remove related machine
         List<Machine> machines = findBodyPart.getMachines();
         for (Machine machine : machines) {
             machine.getBodyParts().remove(findBodyPart);
         }
 
-        //관련 workout 삭제
+        //remove related workout
         List<Workout> workouts = findBodyPart.getWorkouts();
         for (Workout workout : workouts) {
             workout.getBodyParts().remove(findBodyPart);

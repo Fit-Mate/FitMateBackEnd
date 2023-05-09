@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -24,11 +25,22 @@ public class WorkoutRecommendationRepository {
         em.persist(workoutRecommendation);
     }
 
+    @Transactional
+    public void updateQuery(WorkoutRecommendation workoutRecommendation) {
+        String text = workoutRecommendation.getQueryText();
+        int idx = text.indexOf("For a");
+        String queryText = text.substring(idx);
+        workoutRecommendation.setQueryText(queryText);
+    }
+
     public WorkoutRecommendation findById(Long recommendationId) {
         return em.find(WorkoutRecommendation.class, recommendationId);
     }
 
-    public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int offset, int limit, Long userId) {
+    public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int page, Long userId) {
+        int offset = (page-1)*10;
+        int limit = ((page*10)-1);
+
         QWorkoutRecommendation workoutRecommendation = QWorkoutRecommendation.workoutRecommendation;
         JPAQueryFactory query = new JPAQueryFactory(em);
         return query

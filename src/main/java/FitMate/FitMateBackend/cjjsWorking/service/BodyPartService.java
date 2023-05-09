@@ -32,8 +32,8 @@ public class BodyPartService {
     public List<BodyPart> findAll() {
         return bodyPartRepository.findAll();
     }
-    public List<BodyPart> findAll(int offset, int limit) {
-        return bodyPartRepository.findAll(offset, limit);
+    public List<BodyPart> findAll(int page) {
+        return bodyPartRepository.findAll(page);
     }
     //Overloading
 

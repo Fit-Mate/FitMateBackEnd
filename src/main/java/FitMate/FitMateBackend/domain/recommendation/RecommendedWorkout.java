@@ -27,17 +27,19 @@ public class RecommendedWorkout {
     private String videoLink;
 
     @Column(length = 2000)
-    private String korDescription;
+    private String workoutDescription;
 
     @Column(length = 2000)
+    private String korDescription;
     private String engDescription;
 
     public void update(WorkoutRecommendation workoutRecommendation, String englishName, String koreanName, String videoLink,
-                       String korDescription, String engDescription) {
+                       String workoutDescription, String engDescription, String korDescription) {
         this.workoutRecommendation = workoutRecommendation;
         this.englishName = englishName;
         this.koreanName = koreanName;
         this.videoLink = videoLink;
+        this.workoutDescription = workoutDescription;
         this.korDescription = korDescription;
         this.engDescription = engDescription;
     }

@@ -46,8 +46,8 @@ public class WorkoutService {
         return workoutId;
     }
 
-    public List<Workout> findAll(int offset, int limit) {
-        return workoutRepository.findAll(offset, limit);
+    public List<Workout> findAll(int page) {
+        return workoutRepository.findAll(page);
     }
 
     public Workout findOne(Long workoutId) {
@@ -63,8 +63,8 @@ public class WorkoutService {
 
     /////////////////////////////////////////////////////////////////
 
-    public List<Workout> searchAll(int offset, int limit, WorkoutSearch search) {
-        List<Workout> workouts = workoutRepository.searchAll(offset, limit, search);
+    public List<Workout> searchAll(int page, WorkoutSearch search) {
+        List<Workout> workouts = workoutRepository.searchAll(page, search);
         return workouts;
     }
 

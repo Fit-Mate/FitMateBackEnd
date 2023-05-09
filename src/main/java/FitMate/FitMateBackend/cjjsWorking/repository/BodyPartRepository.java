@@ -34,7 +34,10 @@ public class BodyPartRepository {
         return em.createQuery("select b from BodyPart b", BodyPart.class)
                 .getResultList();
     }
-    public List<BodyPart> findAll(int offset, int limit) {
+    public List<BodyPart> findAll(int page) {
+        int offset = (page-1)*10;
+        int limit = ((page*10)-1);
+
         return em.createQuery("select b from BodyPart b", BodyPart.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)

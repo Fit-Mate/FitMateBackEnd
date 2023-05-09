@@ -3,6 +3,7 @@ package FitMate.FitMateBackend.domain.recommendation;
 import FitMate.FitMateBackend.domain.BodyData;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,10 +27,12 @@ public abstract class Recommendation {
     private String queryText; // 질문에 들어간 텍스트
     private LocalDate date = LocalDate.now();
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="body_data_id")
     private BodyData bodyData;

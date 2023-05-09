@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.domain.recommendation;
 
 import FitMate.FitMateBackend.domain.Workout;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,17 +18,27 @@ public class RecommendedWorkout {
     @Column(name = "recommended_workout_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recommend_id")
     private WorkoutRecommendation workoutRecommendation;
 
-    @ManyToMany
-    @JoinTable(name = "recommended_workout_workout",
-            joinColumns = @JoinColumn(name = "recommendation_id"),
-            inverseJoinColumns = @JoinColumn(name ="workout_id"))
-    private List<Workout> recommendedWorkouts = new ArrayList<>();
+    private String englishName;
+    private String koreanName;
+    private String videoLink;
 
-    public void update(WorkoutRecommendation workoutRecommendation) {
+    @Column(length = 2000)
+    private String korDescription;
+
+    @Column(length = 2000)
+    private String engDescription;
+
+    public void update(WorkoutRecommendation workoutRecommendation, String englishName, String koreanName, String videoLink,
+                       String korDescription, String engDescription) {
         this.workoutRecommendation = workoutRecommendation;
+        this.englishName = englishName;
+        this.koreanName = koreanName;
+        this.videoLink = videoLink;
+        this.korDescription = korDescription;
+        this.engDescription = engDescription;
     }
 }

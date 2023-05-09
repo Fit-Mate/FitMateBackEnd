@@ -14,8 +14,8 @@ import java.util.List;
 public class WorkoutRecommendation extends Recommendation {
 
     @JsonIgnore
-    @OneToOne(mappedBy = "workoutRecommendation", fetch = FetchType.LAZY)
-    private RecommendedWorkout recommendedWorkout;
+    @OneToMany(mappedBy = "workoutRecommendation")
+    private List<RecommendedWorkout> rws = new ArrayList<>();
 
     public static WorkoutRecommendation createWorkoutRecommendation
             (BodyData bodyData, User user, List<BodyPart> bodyParts, List<Machine> machines) {
@@ -28,7 +28,8 @@ public class WorkoutRecommendation extends Recommendation {
         String bodyPartQuery = updateBodyPartQuery(bodyParts);
         String machineQuery = updateMachineQuery(machines);
 
-        String qString = "suggest up to 3 workouts with id in this list and you just suggest id wrapped <<<>>> without description and workout name\nFor a ";
+        String qString = "suggest up to 3 workouts with id and description in this list and you present id wrapped <<<>>>. "
+            + "also, you have to explain including weight and number of sets.\nFor a ";
         qString = qString.concat(user.getSex().equals("남성") ? "man" : "woman").concat(" who is ");
         qString = qString.concat(bodyData.describe());
 

@@ -5,6 +5,7 @@ import FitMate.FitMateBackend.cjjsWorking.repository.*;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Machine;
 import FitMate.FitMateBackend.domain.User;
+import FitMate.FitMateBackend.domain.Workout;
 import FitMate.FitMateBackend.domain.recommendation.RecommendedWorkout;
 import FitMate.FitMateBackend.domain.recommendation.WorkoutRecommendation;
 import lombok.RequiredArgsConstructor;
@@ -41,26 +42,33 @@ public class WorkoutRecommendationService {
         return workoutRecommendation.getId();
     }
 
-    public WorkoutRecommendation findById(Long recommendationId) {
-        return workoutRecommendationRepository.findById(recommendationId);
-    }
-
     @Transactional
     public void updateResponse(Long userId, Long recommendationId, String response) {
         WorkoutRecommendation workoutRecommendation = workoutRecommendationRepository.findById(recommendationId);
 
-        RecommendedWorkout recommendedWorkout = new RecommendedWorkout();
-        recommendedWorkout.update(workoutRecommendation);
+        String[] sentences = response.split("\n");
+        for (String sentence : sentences) {
+            if(sentence.equals("")) continue;
 
-        //get recommended workout idx
-        int fromIdx = 0;
-        for (int i = 0; i < 3; i++) {
-            int responseIdx = response.indexOf("<<<", fromIdx);
-            int workoutId = response.charAt(responseIdx + 3) - '0';
-            recommendedWorkout.getRecommendedWorkouts().add(workoutRepository.findById((long) workoutId));
-            fromIdx = responseIdx + 3;
+            RecommendedWorkout recommendedWorkout = new RecommendedWorkout();
+            int startIdx = sentence.indexOf("<<<") + 3;
+            int endIdx = sentence.indexOf(">>>");
+            int workoutId = Integer.parseInt(sentence.substring(startIdx, endIdx));
+
+            Workout workout = workoutRepository.findById((long) workoutId);
+            //DeepL로 한국어 번역 필요
+            recommendedWorkout.update(workoutRecommendation, workout.getEnglishName(), workout.getKoreanName(),
+                    workout.getVideoLink(), workout.getDescription(), sentence.split(":")[1].trim());
+            workoutRecommendation.getRws().add(recommendedWorkout);
+            recommendedWorkoutRepository.save(recommendedWorkout);
         }
+    }
 
-        recommendedWorkoutRepository.save(recommendedWorkout);
+    public WorkoutRecommendation findById(Long recommendationId) {
+        return workoutRecommendationRepository.findById(recommendationId);
+    }
+
+    public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int offset, int limit, Long userId) {
+        return workoutRecommendationRepository.findAllWithWorkoutRecommendation(offset, limit, userId);
     }
 }

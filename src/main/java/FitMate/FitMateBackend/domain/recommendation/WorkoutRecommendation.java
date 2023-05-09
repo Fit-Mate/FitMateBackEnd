@@ -1,6 +1,7 @@
 package FitMate.FitMateBackend.domain.recommendation;
 
 import FitMate.FitMateBackend.domain.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -11,6 +12,10 @@ import java.util.List;
 @Getter
 @DiscriminatorValue("Workout")
 public class WorkoutRecommendation extends Recommendation {
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "workoutRecommendation")
+    private List<RecommendedWorkout> rws = new ArrayList<>();
 
     public static WorkoutRecommendation createWorkoutRecommendation
             (BodyData bodyData, User user, List<BodyPart> bodyParts, List<Machine> machines) {
@@ -23,7 +28,8 @@ public class WorkoutRecommendation extends Recommendation {
         String bodyPartQuery = updateBodyPartQuery(bodyParts);
         String machineQuery = updateMachineQuery(machines);
 
-        String qString = "suggest up to 3 workouts in this list. For a ";
+        String qString = "suggest up to 3 workouts with id and description in this list and you present id wrapped <<<>>>. "
+            + "also, you have to explain including weight and number of sets.\nFor a ";
         qString = qString.concat(user.getSex().equals("남성") ? "man" : "woman").concat(" who is ");
         qString = qString.concat(bodyData.describe());
 

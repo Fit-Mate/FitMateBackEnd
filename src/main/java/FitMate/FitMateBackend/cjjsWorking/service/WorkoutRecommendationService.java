@@ -1,22 +1,17 @@
 package FitMate.FitMateBackend.cjjsWorking.service;
 
 import FitMate.FitMateBackend.chanhaleWorking.repository.UserRepository;
-import FitMate.FitMateBackend.cjjsWorking.repository.BodyPartRepository;
-import FitMate.FitMateBackend.cjjsWorking.repository.MachineRepository;
-import FitMate.FitMateBackend.cjjsWorking.repository.WorkoutRecommendationRepository;
-import FitMate.FitMateBackend.consts.ServiceConst;
+import FitMate.FitMateBackend.cjjsWorking.repository.*;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Machine;
 import FitMate.FitMateBackend.domain.User;
-import FitMate.FitMateBackend.domain.recommendation.RecommendedSupplement;
-import FitMate.FitMateBackend.domain.recommendation.SupplementRecommendation;
+import FitMate.FitMateBackend.domain.Workout;
+import FitMate.FitMateBackend.domain.recommendation.RecommendedWorkout;
 import FitMate.FitMateBackend.domain.recommendation.WorkoutRecommendation;
-import FitMate.FitMateBackend.domain.supplement.Supplement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +23,8 @@ public class WorkoutRecommendationService {
     private final WorkoutRecommendationRepository workoutRecommendationRepository;
     private final BodyPartRepository bodyPartRepository;
     private final MachineRepository machineRepository;
+    private final WorkoutRepository workoutRepository;
+    private final RecommendedWorkoutRepository recommendedWorkoutRepository;
 
     @Transactional
     public Long createWorkoutRecommendation(Long userId, List<String> bodyPartKoreanName,
@@ -45,35 +42,33 @@ public class WorkoutRecommendationService {
         return workoutRecommendation.getId();
     }
 
+    @Transactional
+    public void updateResponse(Long userId, Long recommendationId, String response) {
+        WorkoutRecommendation workoutRecommendation = workoutRecommendationRepository.findById(recommendationId);
+
+        String[] sentences = response.split("\n");
+        for (String sentence : sentences) {
+            if(sentence.equals("")) continue;
+
+            RecommendedWorkout recommendedWorkout = new RecommendedWorkout();
+            int startIdx = sentence.indexOf("<<<") + 3;
+            int endIdx = sentence.indexOf(">>>");
+            int workoutId = Integer.parseInt(sentence.substring(startIdx, endIdx));
+
+            Workout workout = workoutRepository.findById((long) workoutId);
+            //DeepL로 한국어 번역 필요
+            recommendedWorkout.update(workoutRecommendation, workout.getEnglishName(), workout.getKoreanName(),
+                    workout.getVideoLink(), workout.getDescription(), sentence.split(":")[1].trim());
+            workoutRecommendation.getRws().add(recommendedWorkout);
+            recommendedWorkoutRepository.save(recommendedWorkout);
+        }
+    }
+
     public WorkoutRecommendation findById(Long recommendationId) {
         return workoutRecommendationRepository.findById(recommendationId);
     }
 
-    @Transactional
-    public void updateResponse(Long userId, Long recommendationId, String response) {
-//        WorkoutRecommendation workoutRecommendation = workoutRecommendationRepository.findById(recommendationId);
-
-//        int numStart = -1;
-//        int numEnd = -1;
-//        while (true) {
-//            numStart = response.indexOf(ServiceConst.RECOMMEND_PREFIX, numStart+1);
-//            if (numStart == -1) {
-//                break;
-//            }
-//            numEnd = response.indexOf(ServiceConst.RECOMMEND_SUFFIX, numEnd+1);
-//            Long number = Long.parseLong(response.substring(numStart + ServiceConst.RECOMMEND_PREFIX.length(), numEnd));
-//            int strEnd = response.indexOf(ServiceConst.RECOMMEND_PREFIX, numStart + 1);
-//            if (strEnd == -1) {
-//                strEnd = response.length()-1;
-//            }
-//            String str = response.substring(numEnd + ServiceConst.RECOMMEND_SUFFIX.length(), strEnd);
-//            Supplement supplement = supplementRepository.findById(number);
-//            if (supplement == null) {
-//                continue;
-//            }
-//            RecommendedSupplement recommendedSupplement = RecommendedSupplement.createRecommendedSupplement(supplement, str);
-//            recommendedSupplementRepository.save(recommendedSupplement);
-//            supplementRecommendation.addRecommendSupplements(recommendedSupplement);
-//        }
+    public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int offset, int limit, Long userId) {
+        return workoutRecommendationRepository.findAllWithWorkoutRecommendation(offset, limit, userId);
     }
 }

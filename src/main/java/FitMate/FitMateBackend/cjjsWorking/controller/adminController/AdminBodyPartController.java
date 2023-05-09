@@ -6,6 +6,7 @@ import FitMate.FitMateBackend.consts.SessionConst;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Machine;
 import FitMate.FitMateBackend.domain.User;
+import FitMate.FitMateBackend.domain.Workout;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -71,14 +72,27 @@ public class AdminBodyPartController {
     public Long removeBodyPart(@PathVariable("bodyPartId") Long bodyPartId,
                                @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
         BodyPart findBodyPart = bodyPartService.findOne(bodyPartId);
+
+        //관련 machine 삭제
         List<Machine> machines = findBodyPart.getMachines();
         for (Machine machine : machines) {
             for (BodyPart bodyPart : machine.getBodyParts()) {
                 if(bodyPart.equals(findBodyPart)) {
-                    machines.remove(findBodyPart);
+                    machine.getBodyParts().remove(findBodyPart);
                 }
             }
         }
+
+        //관련 workout 삭제
+        List<Workout> workouts = findBodyPart.getWorkouts();
+        for (Workout workout : workouts) {
+            for (BodyPart bodyPart  : workout.getBodyParts()) {
+                if(bodyPart.equals(findBodyPart)) {
+                    workout.getBodyParts().remove(findBodyPart);
+                }
+            }
+        }
+
         bodyPartService.removeBodyPart(bodyPartId);
         return bodyPartId;
     }

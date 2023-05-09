@@ -42,7 +42,8 @@ out/
 ### Jisung ###
 /src/main/java/FitMate/FitMateBackend/P6spyPrettySqlFormatter.java
 /src/main/java/FitMate/FitMateBackend/P6spyConfig.java
-/src/main/java/FitMate/FitMateBackend/cjjsWorking/InitDB.java
+/src/main/resources/META-INF/
+/src/main/resources/spy.properties
 
 ### DB관련 resource ###
 /src/main/resources/application.properties

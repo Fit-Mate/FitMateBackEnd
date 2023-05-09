@@ -63,25 +63,9 @@ public class WorkoutService {
 
     /////////////////////////////////////////////////////////////////
 
-    public List<Workout> findSearchAll(int offset, int limit, WorkoutSearch search) {
-        List<Workout> searchWorkouts = workoutRepository.findSearchAll(offset, limit, search);
-
-        if(search.getBodyPartKoreanName() == null) {
-            return searchWorkouts;
-        }
-
-        List<Workout> findWorkouts = new ArrayList<>();
-        for (Workout workout : searchWorkouts) {
-            int count = 0;
-            for (BodyPart bodyPart : workout.getBodyParts()) {
-                if(search.getBodyPartKoreanName().contains(bodyPart.getKoreanName())) count++;
-                if(count == search.getBodyPartKoreanName().size() && !findWorkouts.contains(workout))
-                    findWorkouts.add(workout);
-
-            }
-        }
-
-        return findWorkouts;
+    public List<Workout> searchAll(int offset, int limit, WorkoutSearch search) {
+        List<Workout> workouts = workoutRepository.searchAll(offset, limit, search);
+        return workouts;
     }
 
     public String getAllWorkoutToString() {

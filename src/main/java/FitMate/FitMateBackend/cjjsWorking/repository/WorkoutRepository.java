@@ -1,7 +1,9 @@
 package FitMate.FitMateBackend.cjjsWorking.repository;
 
+import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.QWorkout;
 import FitMate.FitMateBackend.domain.Workout;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -11,11 +13,14 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static org.springframework.util.StringUtils.hasText;
+
 @Repository
 @RequiredArgsConstructor
 public class WorkoutRepository {
 
     private final EntityManager em;
+    private final BodyPartRepository bodyPartRepository;
 
     public void save(Workout workout) {
         em.persist(workout);
@@ -42,23 +47,30 @@ public class WorkoutRepository {
         em.remove(workout);
     }
 
-    public List<Workout> findSearchAll(int offset, int limit, WorkoutSearch search) {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public List<Workout> searchAll(int offset, int limit, WorkoutSearch search) {
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if(search.getSearchKeyword() != null) {
+            builder.or(QWorkout.workout.englishName.like("%" + search.getSearchKeyword() + "%"));
+            builder.or(QWorkout.workout.koreanName.like("%" + search.getSearchKeyword() + "%"));
+        }
+        if(search.getBodyPartKoreanName() != null) {
+            for (String koreanName : search.getBodyPartKoreanName()) {
+                BodyPart bodyPart = bodyPartRepository.findByKoreanName(koreanName);
+                builder.and(QWorkout.workout.bodyParts.contains(bodyPart));
+            }
+        }
+
         QWorkout workout = QWorkout.workout;
         JPAQueryFactory query = new JPAQueryFactory(em);
         return query
                 .select(workout)
                 .from(workout)
-                .where(nameLike(search.getSearchKeyword()))
-                .limit(1000)
+                .where(builder)
+                .offset(offset)
+                .limit(limit)
                 .fetch();
-    }
-
-    private BooleanExpression nameLike(String name) {
-        if (!StringUtils.hasText(name)) {
-            return null;
-        }
-        System.out.println(name);
-        System.out.println(QWorkout.workout.koreanName);
-        return QWorkout.workout.koreanName.like("%" + name + "%");
     }
 }

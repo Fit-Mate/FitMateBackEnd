@@ -23,7 +23,7 @@ public class AdminBodyPartController {
 
     private final BodyPartService bodyPartService;
 
-    @PostMapping("admin/bodyParts") //운동 부위 정보 등록 (TEST 완료)
+    @PostMapping("admin/bodyParts") //운동 부위 정보 등록 (TEST 완료) ok
     public Long saveBodyPart(@SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,
                              @RequestBody BodyPartRequest request) {
             BodyPart bodyPart = new BodyPart();
@@ -41,13 +41,13 @@ public class AdminBodyPartController {
         return bodyPartId;
     }
 
-    @GetMapping("admin/bodyParts/list") //운동 부위 전체 검색 (TEST 완료)
+    @GetMapping("admin/bodyParts/list") //운동 부위 전체 검색 (TEST 완료) ok
     public GetAllBodyPartResponse findBodyPartAll(@SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
         List<BodyPart> findBodyParts = bodyPartService.findAll();
         return new GetAllBodyPartResponse(findBodyParts);
     }
 
-    @GetMapping("admin/bodyParts/list/{page}") //batch 단위 조회 (TEST 완료)
+    @GetMapping("admin/bodyParts/list/{page}") //batch 단위 조회 (TEST 완료) ok
     public List<BodyPartDto> findBodyParts_page(@PathVariable(value = "page") int page,
                                             @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
 
@@ -60,7 +60,7 @@ public class AdminBodyPartController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("admin/bodyParts/{bodyPartId}") //운동 부위 단일 조회 (TEST 완료)
+    @GetMapping("admin/bodyParts/{bodyPartId}") //운동 부위 단일 조회 (TEST 완료) ok
     public BodyPartResponseDto findBodyPart(@PathVariable("bodyPartId") Long bodyPartId,
                                             @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
 
@@ -76,21 +76,13 @@ public class AdminBodyPartController {
         //관련 machine 삭제
         List<Machine> machines = findBodyPart.getMachines();
         for (Machine machine : machines) {
-            for (BodyPart bodyPart : machine.getBodyParts()) {
-                if(bodyPart.equals(findBodyPart)) {
-                    machine.getBodyParts().remove(findBodyPart);
-                }
-            }
+            machine.getBodyParts().remove(findBodyPart);
         }
 
         //관련 workout 삭제
         List<Workout> workouts = findBodyPart.getWorkouts();
         for (Workout workout : workouts) {
-            for (BodyPart bodyPart  : workout.getBodyParts()) {
-                if(bodyPart.equals(findBodyPart)) {
-                    workout.getBodyParts().remove(findBodyPart);
-                }
-            }
+            workout.getBodyParts().remove(findBodyPart);
         }
 
         bodyPartService.removeBodyPart(bodyPartId);

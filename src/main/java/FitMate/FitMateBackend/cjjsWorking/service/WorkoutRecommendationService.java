@@ -72,7 +72,7 @@ public class WorkoutRecommendationService {
         return workoutRecommendationRepository.findById(recommendationId);
     }
 
-    public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int offset, int limit, Long userId) {
-        return workoutRecommendationRepository.findAllWithWorkoutRecommendation(offset, limit, userId);
+    public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int page, Long userId) {
+        return workoutRecommendationRepository.findAllWithWorkoutRecommendation(page, userId);
     }
 }

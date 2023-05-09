@@ -34,7 +34,10 @@ public class MachineRepository {
         return em.createQuery("select m from Machine m", Machine.class)
                 .getResultList();
     }
-    public List<Machine> findAll(int offset, int limit) {
+    public List<Machine> findAll(int page) {
+        int offset = (page-1)*10;
+        int limit = ((page*10)-1);
+
         return em.createQuery("select m from Machine m", Machine.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)

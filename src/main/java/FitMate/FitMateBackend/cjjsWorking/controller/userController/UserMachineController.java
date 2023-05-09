@@ -24,17 +24,16 @@ public class UserMachineController {
     private final MachineService machineService;
 
     @PostMapping("machines/list") //부위별 조회 (TEST 완료)
-    public List<userMachineResponse> findMachines(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user,
+    public List<userMachineResponse> findMachines(@SessionAttribute(name = SessionConst.LOGIN_USER) User user,
                                                   @RequestBody UserMachineRequest request) {
-
-        System.out.println(request.bodyPartKoreanName.size());
-        List<Machine> findMachines = machineService.findAll();
-
+        if(user == null) return null;
         if(request.bodyPartKoreanName == null) {
-            return null; //check box 없음
+            return null; //not existing check box
         }
 
+        List<Machine> findMachines = machineService.findAll();
         List<Machine> machines = new ArrayList<>();
+
         for (Machine machine : findMachines) {
             int count = 0;
             for (BodyPart bodyPart : machine.getBodyParts()) {

@@ -28,7 +28,9 @@ public class UserWorkoutController {
 
     @GetMapping("workouts/image/{workoutId}") //이미지 조회 (TEST 완료)
     public ResponseEntity<Resource> findWorkoutImage(@PathVariable("workoutId") Long workoutId,
-                                                     @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user) throws MalformedURLException {
+                                                     @SessionAttribute(name = SessionConst.LOGIN_USER) User user) throws MalformedURLException {
+        if(user == null) return null;
+
         Workout findWorkout = workoutService.findOne(workoutId);
         UrlResource imgRrc = new UrlResource("file:" + FileStoreService.getFullPath(findWorkout.getImagePath()));
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
@@ -37,13 +39,12 @@ public class UserWorkoutController {
 
     @PostMapping("workouts/search/list/{page}") //batch 검색 (TEST 완료)
     public List<WorkoutDto> searchWorkouts_page(@PathVariable("page") int page,
-                                              @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user,
+                                              @SessionAttribute(name = SessionConst.LOGIN_USER) User user,
                                               @RequestBody userWorkoutRequest request) {
-        int offset = (page-1)*10;
-        int limit = ((page*10)-1);
+        if(user == null) return null;
 
         WorkoutSearch search = new WorkoutSearch(request.searchKeyword, request.bodyPartKoreanName);
-        List<Workout> searchWorkouts = workoutService.searchAll(offset, limit, search);
+        List<Workout> searchWorkouts = workoutService.searchAll(page, search);
 
         return searchWorkouts.stream()
                 .map(WorkoutDto::new)
@@ -52,7 +53,9 @@ public class UserWorkoutController {
 
     @GetMapping("workouts/{workoutId}") //단일조회 (TEST 완료)
     public WorkoutResponseDto findWorkout(@PathVariable("workoutId") Long workoutId,
-                                          @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user) {
+                                          @SessionAttribute(name = SessionConst.LOGIN_USER) User user) {
+        if(user == null) return null;
+
         Workout findWorkout = workoutService.findOne(workoutId);
         return new WorkoutResponseDto(findWorkout.getEnglishName(), findWorkout.getKoreanName(), findWorkout.getVideoLink(),
                 findWorkout.getDescription(), findWorkout.getBodyParts());

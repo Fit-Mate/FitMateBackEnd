@@ -47,8 +47,8 @@ public class MachineService {
     public List<Machine> findAll() {
         return machineRepository.findAll();
     }
-    public List<Machine> findAll(int offset, int limit) {
-        return machineRepository.findAll(offset, limit);
+    public List<Machine> findAll(int page) {
+        return machineRepository.findAll(page);
     }
     //Overloading
 

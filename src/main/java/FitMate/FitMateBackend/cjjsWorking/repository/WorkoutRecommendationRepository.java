@@ -37,7 +37,10 @@ public class WorkoutRecommendationRepository {
         return em.find(WorkoutRecommendation.class, recommendationId);
     }
 
-    public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int offset, int limit, Long userId) {
+    public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int page, Long userId) {
+        int offset = (page-1)*10;
+        int limit = ((page*10)-1);
+
         QWorkoutRecommendation workoutRecommendation = QWorkoutRecommendation.workoutRecommendation;
         JPAQueryFactory query = new JPAQueryFactory(em);
         return query

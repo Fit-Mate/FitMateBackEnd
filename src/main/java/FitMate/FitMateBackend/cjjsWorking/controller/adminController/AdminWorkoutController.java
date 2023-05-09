@@ -34,8 +34,10 @@ public class AdminWorkoutController {
     private final BodyPartRepository bodyPartRepository;
 
     @PostMapping("admin/workouts")// (TEST 완료)
-    public Long saveWorkout(@SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,
+    public Long saveWorkout(@SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin,
                             @ModelAttribute WorkoutForm form) throws IOException {
+        if(admin == null) return null;
+
         Workout workout = new Workout();
         if(!form.getImage().isEmpty()) {
             String imagePath = FileStoreService.storeFile(form.getImage());
@@ -58,8 +60,10 @@ public class AdminWorkoutController {
 
     @PutMapping("admin/workouts/{workoutId}") //운동 정보 수정 (TEST 완료)
     public Long updateWorkout(@PathVariable("workoutId") Long workoutId,
-                              @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin,
+                              @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin,
                               @ModelAttribute WorkoutForm form) throws IOException {
+        if(admin == null) return null;
+
         if(!form.getImage().isEmpty()) {
             String imagePath = FileStoreService.storeFile(form.getImage());
             workoutService.updateWorkout(workoutId, form.getEnglishName(), form.getKoreanName(), form.getVideoLink(),
@@ -74,7 +78,9 @@ public class AdminWorkoutController {
 
     @GetMapping("admin/workouts/image/{workoutId}") //이미지조회 (TEST 완료)
     public ResponseEntity<Resource> findWorkoutImage(@PathVariable("workoutId") Long workoutId,
-                                 @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) throws MalformedURLException {
+                                 @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) throws MalformedURLException {
+        if(admin == null) return null;
+
         Workout findWorkout = workoutService.findOne(workoutId);
         UrlResource imgRrc = new UrlResource("file:" + FileStoreService.getFullPath(findWorkout.getImagePath()));
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
@@ -83,7 +89,8 @@ public class AdminWorkoutController {
 
     @GetMapping("admin/workouts/{workoutId}") //단건 조회 (TEST 완료)
     public WorkoutResponseDto findWorkout(@PathVariable("workoutId") Long workoutId,
-                                          @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+                                          @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) {
+        if(admin == null) return null;
 
         Workout findWorkout = workoutService.findOne(workoutId);
         return new WorkoutResponseDto(findWorkout.getEnglishName(), findWorkout.getKoreanName(), findWorkout.getVideoLink(),
@@ -92,11 +99,10 @@ public class AdminWorkoutController {
 
     @GetMapping("admin/workouts/list/{page}") //batch 단위 조회 (TEST 완료)
     public List<WorkoutDto> findWorkouts_page(@PathVariable("page") int page,
-                                              @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
-        int offset = (page-1)*10;
-        int limit = ((page*10)-1);
+                                              @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) {
+        if(admin == null) return null;
 
-        List<Workout> findWorkouts = workoutService.findAll(offset, limit);
+        List<Workout> findWorkouts = workoutService.findAll(page);
 
         return findWorkouts.stream()
                 .map(w -> new WorkoutDto(w))
@@ -105,7 +111,9 @@ public class AdminWorkoutController {
 
     @DeleteMapping("admin/workouts/{workoutId}") //운동 정보 삭제 (TEST 완료)
     public Long deleteWorkout(@PathVariable("workoutId") Long workoutId,
-                              @SessionAttribute(name = SessionConst.LOGIN_ADMIN, required = false) User admin) {
+                              @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) {
+        if(admin == null) return null;
+
         Workout findWorkout = workoutService.findOne(workoutId);
         for (BodyPart bodyPart : findWorkout.getBodyParts()) {
             bodyPart.removeWorkout(findWorkout);

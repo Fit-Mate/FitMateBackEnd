@@ -21,7 +21,7 @@ public class WorkoutDto {
         this.englishName = workout.getEnglishName();
         this.koreanName = workout.getKoreanName();
         this.videoLink = workout.getVideoLink();
-        this.description = workout.getVideoLink();
+        this.description = workout.getDescription();
         for (BodyPart bodyPart : workout.getBodyParts()) {
             bodyPartKoreanName.add(bodyPart.getKoreanName());
         }

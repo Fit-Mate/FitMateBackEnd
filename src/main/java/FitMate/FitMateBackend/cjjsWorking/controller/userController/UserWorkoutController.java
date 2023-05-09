@@ -35,18 +35,15 @@ public class UserWorkoutController {
                 .body(imgRrc);
     }
 
-    @PostMapping("workouts/search/list/{page}") //batch 조회 (TEST 완료)
-    public List<WorkoutDto> findWorkouts_page(@PathVariable("page") int page,
+    @PostMapping("workouts/search/list/{page}") //batch 검색 (TEST 완료)
+    public List<WorkoutDto> searchWorkouts_page(@PathVariable("page") int page,
                                               @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user,
                                               @RequestBody userWorkoutRequest request) {
-        //bodyPart만 들어갔을때 검색 안되는 문제
-        //bodyPartKoreanName검색만 된다. englishName검색도 가능하도록..
-        //검색어 입력했을때 하단에 추천 검색어 띄어주는건 어떻게 하지??
         int offset = (page-1)*10;
         int limit = ((page*10)-1);
 
         WorkoutSearch search = new WorkoutSearch(request.searchKeyword, request.bodyPartKoreanName);
-        List<Workout> searchWorkouts = workoutService.findSearchAll(offset, limit, search);
+        List<Workout> searchWorkouts = workoutService.searchAll(offset, limit, search);
 
         return searchWorkouts.stream()
                 .map(WorkoutDto::new)

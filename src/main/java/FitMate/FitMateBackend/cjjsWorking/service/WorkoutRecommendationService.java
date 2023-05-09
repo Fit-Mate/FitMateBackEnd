@@ -2,6 +2,7 @@ package FitMate.FitMateBackend.cjjsWorking.service;
 
 import FitMate.FitMateBackend.chanhaleWorking.repository.UserRepository;
 import FitMate.FitMateBackend.cjjsWorking.repository.*;
+import FitMate.FitMateBackend.cjjsWorking.service.apiService.DeepLTranslateService;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Machine;
 import FitMate.FitMateBackend.domain.User;
@@ -25,6 +26,7 @@ public class WorkoutRecommendationService {
     private final MachineRepository machineRepository;
     private final WorkoutRepository workoutRepository;
     private final RecommendedWorkoutRepository recommendedWorkoutRepository;
+    private final DeepLTranslateService deepLTranslateService;
 
     @Transactional
     public Long createWorkoutRecommendation(Long userId, List<String> bodyPartKoreanName,
@@ -43,7 +45,7 @@ public class WorkoutRecommendationService {
     }
 
     @Transactional
-    public void updateResponse(Long userId, Long recommendationId, String response) {
+    public void updateResponse(Long userId, Long recommendationId, String response) throws Exception {
         WorkoutRecommendation workoutRecommendation = workoutRecommendationRepository.findById(recommendationId);
 
         String[] sentences = response.split("\n");
@@ -56,9 +58,11 @@ public class WorkoutRecommendationService {
             int workoutId = Integer.parseInt(sentence.substring(startIdx, endIdx));
 
             Workout workout = workoutRepository.findById((long) workoutId);
-            //DeepL로 한국어 번역 필요
+            String engDescription = sentence.split(":")[1].trim();
+            String korDescription = deepLTranslateService.sendRequest(engDescription);
+
             recommendedWorkout.update(workoutRecommendation, workout.getEnglishName(), workout.getKoreanName(),
-                    workout.getVideoLink(), workout.getDescription(), sentence.split(":")[1].trim());
+                    workout.getVideoLink(), workout.getDescription(), engDescription, korDescription);
             workoutRecommendation.getRws().add(recommendedWorkout);
             recommendedWorkoutRepository.save(recommendedWorkout);
         }

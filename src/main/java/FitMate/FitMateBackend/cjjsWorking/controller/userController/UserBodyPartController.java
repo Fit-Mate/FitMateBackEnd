@@ -3,6 +3,7 @@ package FitMate.FitMateBackend.cjjsWorking.controller.userController;
 import FitMate.FitMateBackend.cjjsWorking.controller.adminController.AdminBodyPartController;
 import FitMate.FitMateBackend.cjjsWorking.dto.bodyPart.AllBodyPartResponseDto;
 import FitMate.FitMateBackend.cjjsWorking.service.BodyPartService;
+import FitMate.FitMateBackend.cjjsWorking.service.apiService.DeepLTranslateService;
 import FitMate.FitMateBackend.consts.SessionConst;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.User;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController

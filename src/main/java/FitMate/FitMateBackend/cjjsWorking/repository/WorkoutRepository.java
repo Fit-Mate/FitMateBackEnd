@@ -25,12 +25,18 @@ public class WorkoutRepository {
         return em.find(Workout.class, id);
     }
 
+    //Overloading
     public List<Workout> findAll(int offset, int limit) {
         return em.createQuery("select w from Workout w", Workout.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
     }
+    public List<Workout> findAll() {
+        return em.createQuery("select w from Workout w", Workout.class)
+                .getResultList();
+    }
+    //Overloading
 
     public void remove(Workout workout) {
         em.remove(workout);

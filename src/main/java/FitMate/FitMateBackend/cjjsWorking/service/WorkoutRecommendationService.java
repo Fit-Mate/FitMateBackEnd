@@ -1,22 +1,16 @@
 package FitMate.FitMateBackend.cjjsWorking.service;
 
 import FitMate.FitMateBackend.chanhaleWorking.repository.UserRepository;
-import FitMate.FitMateBackend.cjjsWorking.repository.BodyPartRepository;
-import FitMate.FitMateBackend.cjjsWorking.repository.MachineRepository;
-import FitMate.FitMateBackend.cjjsWorking.repository.WorkoutRecommendationRepository;
-import FitMate.FitMateBackend.consts.ServiceConst;
+import FitMate.FitMateBackend.cjjsWorking.repository.*;
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Machine;
 import FitMate.FitMateBackend.domain.User;
-import FitMate.FitMateBackend.domain.recommendation.RecommendedSupplement;
-import FitMate.FitMateBackend.domain.recommendation.SupplementRecommendation;
+import FitMate.FitMateBackend.domain.recommendation.RecommendedWorkout;
 import FitMate.FitMateBackend.domain.recommendation.WorkoutRecommendation;
-import FitMate.FitMateBackend.domain.supplement.Supplement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +22,8 @@ public class WorkoutRecommendationService {
     private final WorkoutRecommendationRepository workoutRecommendationRepository;
     private final BodyPartRepository bodyPartRepository;
     private final MachineRepository machineRepository;
+    private final WorkoutRepository workoutRepository;
+    private final RecommendedWorkoutRepository recommendedWorkoutRepository;
 
     @Transactional
     public Long createWorkoutRecommendation(Long userId, List<String> bodyPartKoreanName,
@@ -51,29 +47,20 @@ public class WorkoutRecommendationService {
 
     @Transactional
     public void updateResponse(Long userId, Long recommendationId, String response) {
-//        WorkoutRecommendation workoutRecommendation = workoutRecommendationRepository.findById(recommendationId);
+        WorkoutRecommendation workoutRecommendation = workoutRecommendationRepository.findById(recommendationId);
 
-//        int numStart = -1;
-//        int numEnd = -1;
-//        while (true) {
-//            numStart = response.indexOf(ServiceConst.RECOMMEND_PREFIX, numStart+1);
-//            if (numStart == -1) {
-//                break;
-//            }
-//            numEnd = response.indexOf(ServiceConst.RECOMMEND_SUFFIX, numEnd+1);
-//            Long number = Long.parseLong(response.substring(numStart + ServiceConst.RECOMMEND_PREFIX.length(), numEnd));
-//            int strEnd = response.indexOf(ServiceConst.RECOMMEND_PREFIX, numStart + 1);
-//            if (strEnd == -1) {
-//                strEnd = response.length()-1;
-//            }
-//            String str = response.substring(numEnd + ServiceConst.RECOMMEND_SUFFIX.length(), strEnd);
-//            Supplement supplement = supplementRepository.findById(number);
-//            if (supplement == null) {
-//                continue;
-//            }
-//            RecommendedSupplement recommendedSupplement = RecommendedSupplement.createRecommendedSupplement(supplement, str);
-//            recommendedSupplementRepository.save(recommendedSupplement);
-//            supplementRecommendation.addRecommendSupplements(recommendedSupplement);
-//        }
+        RecommendedWorkout recommendedWorkout = new RecommendedWorkout();
+        recommendedWorkout.update(workoutRecommendation);
+
+        //get recommended workout idx
+        int fromIdx = 0;
+        for (int i = 0; i < 3; i++) {
+            int responseIdx = response.indexOf("<<<", fromIdx);
+            int workoutId = response.charAt(responseIdx + 3) - '0';
+            recommendedWorkout.getRecommendedWorkouts().add(workoutRepository.findById((long) workoutId));
+            fromIdx = responseIdx + 3;
+        }
+
+        recommendedWorkoutRepository.save(recommendedWorkout);
     }
 }

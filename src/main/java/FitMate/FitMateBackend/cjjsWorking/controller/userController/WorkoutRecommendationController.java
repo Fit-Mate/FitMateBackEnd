@@ -4,6 +4,7 @@ import FitMate.FitMateBackend.chanhaleWorking.repository.UserRepository;
 import FitMate.FitMateBackend.chanhaleWorking.service.ChatGptService;
 import FitMate.FitMateBackend.chanhaleWorking.service.UserService;
 import FitMate.FitMateBackend.cjjsWorking.service.WorkoutRecommendationService;
+import FitMate.FitMateBackend.cjjsWorking.service.WorkoutService;
 import FitMate.FitMateBackend.consts.SessionConst;
 import FitMate.FitMateBackend.domain.User;
 import FitMate.FitMateBackend.domain.recommendation.WorkoutRecommendation;
@@ -23,6 +24,7 @@ import static org.hibernate.query.sqm.tree.SqmNode.log;
 public class WorkoutRecommendationController {
 
     private final WorkoutRecommendationService workoutRecommendationService;
+    private final WorkoutService workoutService;
     private final UserRepository userRepository;
     private final ChatGptService chatGptService;
 
@@ -35,7 +37,8 @@ public class WorkoutRecommendationController {
                 createWorkoutRecommendation(1L, request.bodyPartKoreanName, request.machineKoreanName);
 
         WorkoutRecommendation workoutRecommendation = workoutRecommendationService.findById(recommendationId);
-        String question = workoutRecommendation.getQueryText();
+        String question = workoutService.getAllWorkoutToString().concat("\n");
+        question = question.concat(workoutRecommendation.getQueryText());
         log.info(question);
 
 //        chatGptService.sendWorkoutRequest(user.getId(), workoutRecommendation.getId(), question);

@@ -52,10 +52,8 @@ public class WorkoutRecommendationController {
     @GetMapping("recommendation/workout/history/list/{page}") //운동 추천 history batch 요청 (TEST 완료)
     public List<WorkoutRecommendPageDto> findRecommendedWorkouts_page(@PathVariable("page") int page,
                                              @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user) {
-        int offset = (page-1)*10;
-        int limit = ((page*10)-1);
 
-        List<WorkoutRecommendation> findWR = workoutRecommendationService.findAllWithWorkoutRecommendation(offset, limit, user.getId());
+        List<WorkoutRecommendation> findWR = workoutRecommendationService.findAllWithWorkoutRecommendation(page, user.getId());
 
         return findWR
                 .stream().map(WorkoutRecommendPageDto::new)

@@ -6,6 +6,7 @@ import FitMate.FitMateBackend.chanhaleWorking.repository.RecommendedSupplementRe
 import FitMate.FitMateBackend.chanhaleWorking.repository.SupplementRecommendationRepository;
 import FitMate.FitMateBackend.chanhaleWorking.repository.SupplementRepository;
 import FitMate.FitMateBackend.chanhaleWorking.repository.UserRepository;
+import FitMate.FitMateBackend.cjjsWorking.service.apiService.DeepLTranslateService;
 import FitMate.FitMateBackend.consts.ServiceConst;
 import FitMate.FitMateBackend.domain.User;
 import FitMate.FitMateBackend.domain.recommendation.RecommendedSupplement;
@@ -28,6 +29,7 @@ public class SupplementRecommendationService {
     private final UserRepository userRepository;
     private final SupplementRepository supplementRepository;
     private final RecommendedSupplementRepository recommendedSupplementRepository;
+    private final DeepLTranslateService deepLTranslateService;
 
     @Transactional
     public Long createSupplementRecommendation(Long userId, SupplementRecommendationForm supplementRecommendationForm) {
@@ -46,8 +48,8 @@ public class SupplementRecommendationService {
         return supplementRecommendationRepository.findById(userId, supplementRecommendationId);
     }
 
-    @Transactional
-    public void updateGptResponse(Long userId, Long recommendationId, String response) {
+  /*  @Transactional
+    public void updateGptResponse(Long userId, Long recommendationId, String response) throws Exception {
         SupplementRecommendation supplementRecommendation = supplementRecommendationRepository.findById(userId, recommendationId);
         if (supplementRecommendation == null)
             return;
@@ -66,16 +68,64 @@ public class SupplementRecommendationService {
                 strEnd = response.length()-1;
             }
             String str = response.substring(numEnd + ServiceConst.RECOMMEND_SUFFIX.length(), strEnd);
+            String strKor = deepLTranslateService.sendRequest(str);
             Supplement supplement = supplementRepository.findById(number);
             if (supplement == null) {
                 continue;
             }
-            RecommendedSupplement recommendedSupplement = RecommendedSupplement.createRecommendedSupplement(supplement, str);
+            RecommendedSupplement recommendedSupplement = RecommendedSupplement.createRecommendedSupplement(supplement, str, strKor);
             recommendedSupplementRepository.save(recommendedSupplement);
             supplementRecommendation.addRecommendSupplements(recommendedSupplement);
         }
-    }
+    }*/
+       @Transactional
+        public void updateGptResponse(Long userId, Long recommendationId, String response) throws Exception {
+            SupplementRecommendation supplementRecommendation = supplementRecommendationRepository.findById(userId, recommendationId);
+            if (supplementRecommendation == null)
+                return;
 
+            int numStart = -1;
+            int numEnd = -1;
+            int strStart = -1;
+            int strEnd = -1;
+            int numStartKor = -1;
+            int strStartKor = -1;
+            int strEndKor = -1;
+            response = response.replaceAll("\n", "|");
+            String responseKor = deepLTranslateService.sendRequest(response);
+            while (true) {
+                numStart = response.indexOf(ServiceConst.RECOMMEND_PREFIX, numStart+1);
+                numStartKor = responseKor.indexOf(ServiceConst.RECOMMEND_PREFIX, numStartKor+1);
+                if (numStart == -1) {
+                    break;
+                }
+                numEnd = response.indexOf(ServiceConst.RECOMMEND_SUFFIX, numEnd+1);
+                Long number = Long.parseLong(response.substring(numStart + ServiceConst.RECOMMEND_PREFIX.length(), numEnd));
+                strStart = response.indexOf("-", numStart + 1);
+                strEnd = response.indexOf("||", numStart + 1);
+                strStartKor = responseKor.indexOf("-", numStartKor + 1);
+                strEndKor = responseKor.indexOf("||", numStartKor+1);
+                if (strEnd == -1) {
+                    strEnd = response.length()-1;
+                }
+                log.info("numStartKor:{}, numStartKorstr:{}",numStartKor, responseKor.substring(numStartKor));
+                log.info("strStartKor:{}, strEndKor:{}",strStartKor, strEndKor);
+                if (strEndKor == -1) {
+                    strEndKor = responseKor.length()-1;
+                }
+                log.info("strStartKor:{}, strEndKor:{}",strStartKor, strEndKor);
+                String str = response.substring(strStart+1, strEnd);
+                String strKor = responseKor.substring(strStartKor+1, strEndKor);
+                log.info("strStartKor:{}, strEndKor:{}",strStartKor, strEndKor);
+                Supplement supplement = supplementRepository.findById(number);
+                if (supplement == null) {
+                    continue;
+                }
+                RecommendedSupplement recommendedSupplement = RecommendedSupplement.createRecommendedSupplement(supplement, str, strKor);
+                recommendedSupplementRepository.save(recommendedSupplement);
+                supplementRecommendation.addRecommendSupplements(recommendedSupplement);
+            }
+        }
     public SupplementRecommendation getSupplementRecommendation(Long userId, Long supplementRecommendationId) {
         return supplementRecommendationRepository.findById(userId, supplementRecommendationId);
     }

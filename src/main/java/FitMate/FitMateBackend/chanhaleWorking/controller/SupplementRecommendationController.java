@@ -8,6 +8,7 @@ import FitMate.FitMateBackend.chanhaleWorking.form.recommendation.SupplementReco
 import FitMate.FitMateBackend.chanhaleWorking.service.ChatGptService;
 import FitMate.FitMateBackend.chanhaleWorking.service.SupplementRecommendationService;
 import FitMate.FitMateBackend.chanhaleWorking.service.SupplementService;
+import FitMate.FitMateBackend.cjjsWorking.service.apiService.DeepLTranslateService;
 import FitMate.FitMateBackend.domain.User;
 import FitMate.FitMateBackend.domain.recommendation.SupplementRecommendation;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class SupplementRecommendationController {
     private final SupplementRecommendationService supplementRecommendationService;
     private final SupplementService supplementService;
     private final ChatGptService chatGptService;
+    private final DeepLTranslateService deepLTranslateService;
     @PostMapping("/add")
     public Long getRecommendedText(@Login User user, @RequestBody SupplementRecommendationForm form) throws Exception {
         Long recommendationId = supplementRecommendationService.createSupplementRecommendation(user.getId(), form);

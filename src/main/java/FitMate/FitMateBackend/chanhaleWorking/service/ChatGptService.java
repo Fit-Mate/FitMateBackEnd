@@ -35,7 +35,7 @@ public class ChatGptService {
  * input으로 recommendationID와 chat GPT에게 넘길 질문을 넘긴다.
  */
     @Async("threadPoolTaskExecutor")
-    public void sendRequest(Long userId, Long recommendationId, String question) {
+    public void sendRequest(Long userId, Long recommendationId, String question) throws Exception {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType(ChatGptConfig.MEDIA_TYPE));

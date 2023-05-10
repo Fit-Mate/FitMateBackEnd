@@ -18,6 +18,7 @@ public class RecommendedSupplementDto {
     private Float servings;
     private String flavor;
     private String description;
+    private String koreanRecommendation;
 
     public static RecommendedSupplementDto createRecommendedSupplementDto(RecommendedSupplement rc) {
         Supplement supplement = rc.getSupplement();
@@ -29,6 +30,7 @@ public class RecommendedSupplementDto {
         recommendedSupplementDto.servings = supplement.getServings();
         recommendedSupplementDto.flavor = supplement.getFlavor();
         recommendedSupplementDto.description = supplement.getDescription();
+        recommendedSupplementDto.koreanRecommendation = rc.getKoreanRecommendationString();
         return recommendedSupplementDto;
     }
 }

@@ -22,7 +22,6 @@ public class DeepLTranslateService {
     private String key;
 
     public String sendRequest(String source) throws Exception {
-        log.info("source: " + source);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://deepl-translator.p.rapidapi.com/translate"))
                 .header("content-type", "application/json")

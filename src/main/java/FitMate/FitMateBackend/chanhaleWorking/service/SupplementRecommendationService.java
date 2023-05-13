@@ -108,15 +108,11 @@ public class SupplementRecommendationService {
                 if (strEnd == -1) {
                     strEnd = response.length()-1;
                 }
-                log.info("numStartKor:{}, numStartKorstr:{}",numStartKor, responseKor.substring(numStartKor));
-                log.info("strStartKor:{}, strEndKor:{}",strStartKor, strEndKor);
                 if (strEndKor == -1) {
                     strEndKor = responseKor.length()-1;
                 }
-                log.info("strStartKor:{}, strEndKor:{}",strStartKor, strEndKor);
                 String str = response.substring(strStart+1, strEnd);
                 String strKor = responseKor.substring(strStartKor+1, strEndKor);
-                log.info("strStartKor:{}, strEndKor:{}",strStartKor, strEndKor);
                 Supplement supplement = supplementRepository.findById(number);
                 if (supplement == null) {
                     continue;

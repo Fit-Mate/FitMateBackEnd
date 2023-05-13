@@ -36,8 +36,10 @@ public class WorkoutRecommendationController {
     @PostMapping("recommendation/workout")
     public Long getWorkoutRecommendation(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user,
                                          @RequestBody WorkoutRecommendationRequest request) throws Exception {
+//        Long recommendationId = workoutRecommendationService.
+//                createWorkoutRecommendation(user.getId(), request.bodyPartKoreanName, request.machineKoreanName);
         Long recommendationId = workoutRecommendationService.
-                createWorkoutRecommendation(user.getId(), request.bodyPartKoreanName, request.machineKoreanName);
+        createWorkoutRecommendation(1L, request.bodyPartKoreanName, request.machineKoreanName);
 
         WorkoutRecommendation workoutRecommendation = workoutRecommendationService.findById(recommendationId);
         String question = workoutService.getAllWorkoutToString().concat("\n");
@@ -45,7 +47,8 @@ public class WorkoutRecommendationController {
         workoutRecommendationRepository.updateQuery(workoutRecommendation);
         log.info(question);
 
-        chatGptService.sendWorkoutRequest(user.getId(), workoutRecommendation.getId(), question);
+//        chatGptService.sendWorkoutRequest(user.getId(), workoutRecommendation.getId(), question);
+        chatGptService.sendWorkoutRequest(1L, workoutRecommendation.getId(), question);
         return recommendationId;
     }
 

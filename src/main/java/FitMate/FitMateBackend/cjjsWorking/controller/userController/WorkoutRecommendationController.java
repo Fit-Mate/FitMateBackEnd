@@ -34,12 +34,12 @@ public class WorkoutRecommendationController {
     private final WorkoutRecommendationRepository workoutRecommendationRepository;
 
     @PostMapping("recommendation/workout")
-    public Long getWorkoutRecommendation(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user,
+    public Long getWorkoutRecommendation(@SessionAttribute(name = SessionConst.LOGIN_USER) User user,
                                          @RequestBody WorkoutRecommendationRequest request) throws Exception {
-//        Long recommendationId = workoutRecommendationService.
-//                createWorkoutRecommendation(user.getId(), request.bodyPartKoreanName, request.machineKoreanName);
+        if(user == null) return null;
+
         Long recommendationId = workoutRecommendationService.
-        createWorkoutRecommendation(1L, request.bodyPartKoreanName, request.machineKoreanName);
+                createWorkoutRecommendation(user.getId(), request.bodyPartKoreanName, request.machineKoreanName);
 
         WorkoutRecommendation workoutRecommendation = workoutRecommendationService.findById(recommendationId);
         String question = workoutService.getAllWorkoutToString().concat("\n");
@@ -47,14 +47,14 @@ public class WorkoutRecommendationController {
         workoutRecommendationRepository.updateQuery(workoutRecommendation);
         log.info(question);
 
-//        chatGptService.sendWorkoutRequest(user.getId(), workoutRecommendation.getId(), question);
-        chatGptService.sendWorkoutRequest(1L, workoutRecommendation.getId(), question);
+        chatGptService.sendWorkoutRequest(user.getId(), workoutRecommendation.getId(), question);
         return recommendationId;
     }
 
     @GetMapping("recommendation/workout/history/list/{page}") //운동 추천 history batch 요청 (TEST 완료)
     public List<WorkoutRecommendPageDto> findRecommendedWorkouts_page(@PathVariable("page") int page,
-                                             @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user) {
+                                             @SessionAttribute(name = SessionConst.LOGIN_USER) User user) {
+        if(user == null) return null;
 
         List<WorkoutRecommendation> findWR = workoutRecommendationService.findAllWithWorkoutRecommendation(page, user.getId());
 
@@ -65,7 +65,9 @@ public class WorkoutRecommendationController {
 
     @GetMapping("recommendation/workout/history/{workoutRecommendationId}") //운동 추천 history 단건 요청 (TEST 완료)
     public RecommendedWorkoutResponse findRecommendedWorkout(@PathVariable("workoutRecommendationId") Long workoutRecommendationId,
-                                       @SessionAttribute(name = SessionConst.LOGIN_USER, required = false) User user) {
+                                       @SessionAttribute(name = SessionConst.LOGIN_USER) User user) {
+        if(user == null) return null;
+
         List<RecommendedWorkout> findRecommend = recommendedWorkoutService.findById(workoutRecommendationId);
         WorkoutRecommendation wr = workoutRecommendationService.findById(workoutRecommendationId);
 

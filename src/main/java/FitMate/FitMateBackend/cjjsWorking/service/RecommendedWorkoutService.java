@@ -16,6 +16,11 @@ public class RecommendedWorkoutService {
 
     private final RecommendedWorkoutRepository recommendedWorkoutRepository;
 
+    @Transactional
+    public void save(RecommendedWorkout recommendedWorkout) {
+        recommendedWorkoutRepository.save(recommendedWorkout);
+    }
+
     public List<RecommendedWorkout> findById(Long recommendationId) {
         return recommendedWorkoutRepository.findById(recommendationId);
     }

@@ -31,6 +31,8 @@ public class RecommendedWorkout {
 
     @Column(length = 2000)
     private String korDescription;
+
+    @Column(length = 2000)
     private String engDescription;
 
     public void update(WorkoutRecommendation workoutRecommendation, String englishName, String koreanName, String videoLink,

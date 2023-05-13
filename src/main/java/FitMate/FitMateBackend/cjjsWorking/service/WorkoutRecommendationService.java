@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.hibernate.query.sqm.tree.SqmNode.log;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -62,7 +64,6 @@ public class WorkoutRecommendationService {
             Workout workout = workoutRepository.findById((long) workoutId);
             String engDescription = sentence.split(":")[1].trim();
             String korDescription = deepLTranslateService.sendRequest(engDescription);
-
             recommendedWorkout.update(workoutRecommendation, workout.getEnglishName(), workout.getKoreanName(),
                     workout.getVideoLink(), workout.getDescription(), engDescription, korDescription);
             workoutRecommendation.getRws().add(recommendedWorkout);

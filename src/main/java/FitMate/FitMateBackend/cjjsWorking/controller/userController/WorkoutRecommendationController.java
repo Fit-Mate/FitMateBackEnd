@@ -86,7 +86,7 @@ public class WorkoutRecommendationController {
             this.date = date;
             this.question = question;
             for (RecommendedWorkout recommend : recommends) {
-                this.recommends.add(new RecommendData(recommend.getKoreanName(), recommend.getVideoLink(), recommend.getEngDescription()));
+                this.recommends.add(new RecommendData(recommend.getKoreanName(), recommend.getVideoLink(), recommend.getKorDescription()));
             }
         }
     }

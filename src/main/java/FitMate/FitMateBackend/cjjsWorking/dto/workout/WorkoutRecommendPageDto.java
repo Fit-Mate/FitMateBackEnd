@@ -18,7 +18,7 @@ public class WorkoutRecommendPageDto {
         this.recommendId = workoutRecommendation.getId();
         this.date = workoutRecommendation.getDate();
         for (RecommendedWorkout recommendData : workoutRecommendation.getRws()) {
-            workouts.add(new RecommendData(recommendData.getKoreanName(), recommendData.getVideoLink(), recommendData.getEngDescription()));
+            workouts.add(new RecommendData(recommendData.getKoreanName(), recommendData.getVideoLink(), recommendData.getKorDescription()));
         }
     }
 }

@@ -55,6 +55,8 @@ public class WorkoutRecommendationService {
             RecommendedWorkout recommendedWorkout = new RecommendedWorkout();
             int startIdx = sentence.indexOf("<<<") + 3;
             int endIdx = sentence.indexOf(">>>");
+            if(endIdx == -1) continue;
+
             int workoutId = Integer.parseInt(sentence.substring(startIdx, endIdx));
 
             Workout workout = workoutRepository.findById((long) workoutId);

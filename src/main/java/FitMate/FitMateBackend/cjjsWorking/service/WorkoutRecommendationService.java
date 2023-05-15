@@ -58,6 +58,7 @@ public class WorkoutRecommendationService {
             int startIdx = sentence.indexOf("<<<") + 3;
             int endIdx = sentence.indexOf(">>>");
             if(endIdx == -1) continue;
+            System.out.println(sentence);
 
             int workoutId = Integer.parseInt(sentence.substring(startIdx, endIdx));
 

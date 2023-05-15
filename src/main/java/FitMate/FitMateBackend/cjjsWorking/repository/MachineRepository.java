@@ -2,6 +2,11 @@ package FitMate.FitMateBackend.cjjsWorking.repository;
 
 import FitMate.FitMateBackend.domain.BodyPart;
 import FitMate.FitMateBackend.domain.Machine;
+import FitMate.FitMateBackend.domain.QMachine;
+import FitMate.FitMateBackend.domain.QWorkout;
+import FitMate.FitMateBackend.domain.recommendation.QWorkoutRecommendation;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,6 +19,7 @@ import java.util.List;
 public class MachineRepository {
 
     private final EntityManager em;
+    private final BodyPartRepository bodyPartRepository;
 
     public void save(Machine machine) {
         em.persist(machine);
@@ -31,14 +37,14 @@ public class MachineRepository {
 
     // Overloading
     public List<Machine> findAll() {
-        return em.createQuery("select m from Machine m", Machine.class)
+        return em.createQuery("select m from Machine m order by m.id desc", Machine.class)
                 .getResultList();
     }
     public List<Machine> findAll(int page) {
         int offset = (page-1)*10;
         int limit = ((page*10)-1);
 
-        return em.createQuery("select m from Machine m", Machine.class)
+        return em.createQuery("select m from Machine m order by m.id desc", Machine.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
@@ -59,5 +65,23 @@ public class MachineRepository {
             machines.add(machine);
         }
         return machines;
+    }
+
+    public List<Machine> findWithBodyPart(List<String> bodyPartKoreanName) {
+        QMachine machine = QMachine.machine;
+        JPAQueryFactory query = new JPAQueryFactory(em);
+
+        BooleanBuilder builder = new BooleanBuilder();
+        for (String koreanName : bodyPartKoreanName) {
+            BodyPart bodyPart = bodyPartRepository.findByKoreanName(koreanName);
+            builder.or(QMachine.machine.bodyParts.contains(bodyPart));
+        }
+
+        return query
+                .select(machine)
+                .from(machine)
+                .where(builder)
+                .orderBy(machine.id.desc())
+                .fetch();
     }
 }

@@ -31,20 +31,10 @@ public class UserMachineController {
             return null; //not existing check box
         }
 
-        List<Machine> findMachines = machineService.findAll();
-        List<Machine> machines = new ArrayList<>();
-
-        for (Machine machine : findMachines) {
-            int count = 0;
-            for (BodyPart bodyPart : machine.getBodyParts()) {
-                if(request.bodyPartKoreanName.contains(bodyPart.getKoreanName())) count++;
-                if(count == request.bodyPartKoreanName.size() && !machines.contains(machine))
-                    machines.add(machine);
-            }
-        }
+        List<Machine> machines = machineService.findWithBodyPart(request.bodyPartKoreanName);
 
         return machines.stream()
-                .map(m -> new userMachineResponse(m))
+                .map(userMachineResponse::new)
                 .collect(Collectors.toList());
     }
 

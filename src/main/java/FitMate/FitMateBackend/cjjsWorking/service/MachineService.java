@@ -56,6 +56,10 @@ public class MachineService {
         return machineRepository.findById(machineId);
     }
 
+    public List<Machine> findWithBodyPart(List<String> bodyPartKoreanName) {
+        return machineRepository.findWithBodyPart(bodyPartKoreanName);
+    }
+
     @Transactional
     public Long removeMachine(Long machineId) {
         Machine findMachine = machineRepository.findById(machineId);

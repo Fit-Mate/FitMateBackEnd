@@ -47,6 +47,7 @@ public class WorkoutRecommendationRepository {
                 .select(workoutRecommendation)
                 .from(workoutRecommendation)
                 .where(workoutRecommendation.user.id.eq(userId))
+                .orderBy(workoutRecommendation.id.desc())
                 .offset(offset)
                 .limit(limit)
                 .fetch();

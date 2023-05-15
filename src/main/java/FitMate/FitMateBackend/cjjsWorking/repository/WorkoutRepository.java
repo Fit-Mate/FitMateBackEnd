@@ -35,13 +35,13 @@ public class WorkoutRepository {
         int offset = (page-1)*10;
         int limit = ((page*10)-1);
 
-        return em.createQuery("select w from Workout w", Workout.class)
+        return em.createQuery("select w from Workout w order by w.id desc", Workout.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultList();
     }
     public List<Workout> findAll() {
-        return em.createQuery("select w from Workout w", Workout.class)
+        return em.createQuery("select w from Workout w order by w.id desc", Workout.class)
                 .getResultList();
     }
     //Overloading
@@ -74,6 +74,7 @@ public class WorkoutRepository {
                 .select(workout)
                 .from(workout)
                 .where(builder)
+                .orderBy(workout.id.desc())
                 .offset(offset)
                 .limit(limit)
                 .fetch();

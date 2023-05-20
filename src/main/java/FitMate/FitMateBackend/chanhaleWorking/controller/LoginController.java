@@ -37,7 +37,10 @@ public class LoginController {
         }
         HttpSession session = request.getSession();
 
+
         session.setAttribute(SessionConst.LOGIN_USER, loginUser);
+        if(loginUser.getType().equals("Admin"))
+            session.setAttribute(SessionConst.LOGIN_ADMIN, loginUser);
         log.info("login success [{}]",loginForm.getLoginId() );
         return "ok";
     }

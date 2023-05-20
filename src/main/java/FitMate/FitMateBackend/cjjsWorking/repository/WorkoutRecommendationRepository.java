@@ -39,7 +39,7 @@ public class WorkoutRecommendationRepository {
 
     public List<WorkoutRecommendation> findAllWithWorkoutRecommendation(int page, Long userId) {
         int offset = (page-1)*10;
-        int limit = ((page*10)-1);
+        int limit = 10;
 
         QWorkoutRecommendation workoutRecommendation = QWorkoutRecommendation.workoutRecommendation;
         JPAQueryFactory query = new JPAQueryFactory(em);

@@ -33,7 +33,7 @@ public class WorkoutRepository {
     //Overloading
     public List<Workout> findAll(int page) {
         int offset = (page-1)*10;
-        int limit = ((page*10)-1);
+        int limit = 10;
 
         return em.createQuery("select w from Workout w order by w.id desc", Workout.class)
                 .setFirstResult(offset)
@@ -54,7 +54,7 @@ public class WorkoutRepository {
 
     public List<Workout> searchAll(int page, WorkoutSearch search) {
         int offset = (page-1)*10;
-        int limit = ((page*10)-1);
+        int limit = 10;
 
         BooleanBuilder builder = new BooleanBuilder();
         if(search.getSearchKeyword() != null) {

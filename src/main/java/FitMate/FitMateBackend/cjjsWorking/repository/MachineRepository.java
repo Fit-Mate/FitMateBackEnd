@@ -42,7 +42,7 @@ public class MachineRepository {
     }
     public List<Machine> findAll(int page) {
         int offset = (page-1)*10;
-        int limit = ((page*10)-1);
+        int limit = 10;
 
         return em.createQuery("select m from Machine m order by m.id desc", Machine.class)
                 .setFirstResult(offset)

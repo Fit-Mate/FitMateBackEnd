@@ -69,7 +69,7 @@ public class SupplementController {
         return Arrays.stream(SupplementType.values()).toList();
     }
 
-    @GetMapping("/search/list/{pageNum}")
+    @PostMapping("/search/list/{pageNum}")
     public List<SupplementListDto> searchSupplements(@PathVariable("pageNum") Long page, @RequestBody SupplementSearchForm form){
         List<Supplement> supplementList = supplementService.searchSupplementBatch(page, form);
         List<SupplementListDto> supplementListDtoList = new ArrayList<>();

@@ -62,9 +62,13 @@ public class WorkoutRecommendationService {
 
             int workoutId = Integer.parseInt(sentence.substring(startIdx, endIdx));
 
+            //find workout
             Workout workout = workoutRepository.findById((long) workoutId);
-            String engDescription = sentence.split(":")[1].trim();
+
+            //eng, kor description 생성
+            String engDescription = sentence.substring(endIdx+4);
             String korDescription = deepLTranslateService.sendRequest(engDescription);
+
             recommendedWorkout.update(workoutRecommendation, workout.getEnglishName(), workout.getKoreanName(),
                     workout.getVideoLink(), workout.getDescription(), engDescription, korDescription);
             workoutRecommendation.getRws().add(recommendedWorkout);

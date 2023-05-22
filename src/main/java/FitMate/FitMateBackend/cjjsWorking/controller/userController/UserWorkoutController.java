@@ -39,10 +39,8 @@ public class UserWorkoutController {
 
     @PostMapping("workouts/search/list/{page}") //batch 검색 (TEST 완료)
     public List<WorkoutDto> searchWorkouts_page(@PathVariable("page") int page,
-                                              @SessionAttribute(name = SessionConst.LOGIN_USER) User user,
                                               @RequestBody userWorkoutRequest request) {
-        if(user == null) return null;
-
+        //비회원도 운동 검색은 할 수 있기 때문에 user session 제약 없앰
         WorkoutSearch search = new WorkoutSearch(request.searchKeyword, request.bodyPartKoreanName);
         List<Workout> searchWorkouts = workoutService.searchAll(page, search);
 
@@ -52,10 +50,8 @@ public class UserWorkoutController {
     }
 
     @GetMapping("workouts/{workoutId}") //단일조회 (TEST 완료)
-    public WorkoutResponseDto findWorkout(@PathVariable("workoutId") Long workoutId,
-                                          @SessionAttribute(name = SessionConst.LOGIN_USER) User user) {
-        if(user == null) return null;
-
+    public WorkoutResponseDto findWorkout(@PathVariable("workoutId") Long workoutId) {
+        //비회원도 운동 검색은 할 수 있기 때문에 user session 제약 없앰
         Workout findWorkout = workoutService.findOne(workoutId);
         return new WorkoutResponseDto(findWorkout.getEnglishName(), findWorkout.getKoreanName(), findWorkout.getVideoLink(),
                 findWorkout.getDescription(), findWorkout.getBodyParts());

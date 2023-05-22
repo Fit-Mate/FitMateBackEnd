@@ -18,6 +18,7 @@ public class SupplementListDto {
     private Integer price;
     private Float servings;
     private String flavor;
+    private String supplementType;
 //    private UrlResource image;
 
     public SupplementListDto(Supplement supplement){
@@ -26,6 +27,7 @@ public class SupplementListDto {
         this.koreanName = supplement.getKoreanName();
         this.price = supplement.getPrice();
         this.servings = supplement.getServings();
+        this.supplementType = supplement.getType().name();
 //        this.image = new UrlResource("file:" + FileStoreService.getFullPath(supplement.getImagePath()));
         this.flavor = supplement.getFlavor();
     }

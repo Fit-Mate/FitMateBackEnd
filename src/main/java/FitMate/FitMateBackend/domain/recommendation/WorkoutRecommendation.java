@@ -28,8 +28,9 @@ public class WorkoutRecommendation extends Recommendation {
         String bodyPartQuery = updateBodyPartQuery(bodyParts);
         String machineQuery = updateMachineQuery(machines);
 
-        String qString = "suggest up to 3 workouts with id and description in this list and you present id wrapped <<<>>>. "
-            + "also, you have to explain considering sex and body data described later with weight and number of sets.\nFor a ";
+        String qString = "suggest up to 3 workouts with id and description in this list and id should only be wrapped in <<<>>>. "
+            + "also, you have to explain including weight and number of sets and considering sex and body data described later."
+            + "present each workout as a single line.\nFor a ";
         qString = qString.concat(user.getSex().equals("남성") ? "man" : "woman").concat(" who is ");
         qString = qString.concat(bodyData.describe());
 

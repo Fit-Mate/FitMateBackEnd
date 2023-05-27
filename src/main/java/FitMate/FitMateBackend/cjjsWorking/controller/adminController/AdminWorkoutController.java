@@ -78,7 +78,7 @@ public class AdminWorkoutController {
 
     @GetMapping("admin/workouts/image/{workoutId}") //이미지조회 (TEST 완료)
     public ResponseEntity<Resource> findWorkoutImage(@PathVariable("workoutId") Long workoutId,
-                                 @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) throws MalformedURLException {
+                                                    @SessionAttribute(name = SessionConst.LOGIN_ADMIN) User admin) throws MalformedURLException {
         if(admin == null) return null;
 
         Workout findWorkout = workoutService.findOne(workoutId);

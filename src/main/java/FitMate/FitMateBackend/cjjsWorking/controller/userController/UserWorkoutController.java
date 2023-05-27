@@ -27,10 +27,8 @@ public class UserWorkoutController {
     private final WorkoutService workoutService;
 
     @GetMapping("workouts/image/{workoutId}") //이미지 조회 (TEST 완료)
-    public ResponseEntity<Resource> findWorkoutImage(@PathVariable("workoutId") Long workoutId,
-                                                     @SessionAttribute(name = SessionConst.LOGIN_USER) User user) throws MalformedURLException {
-        if(user == null) return null;
-
+    public ResponseEntity<Resource> findWorkoutImage(@PathVariable("workoutId") Long workoutId) throws MalformedURLException {
+        //비회원도 운동 검색은 할 수 있기 때문에 user session 제약 없앰
         Workout findWorkout = workoutService.findOne(workoutId);
         UrlResource imgRrc = new UrlResource("file:" + FileStoreService.getFullPath(findWorkout.getImagePath()));
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
@@ -58,7 +56,7 @@ public class UserWorkoutController {
     }
 
     @Data
-    static class userWorkoutRequest {
+    static class userWorkoutRequest{
         private String searchKeyword;
         private List<String> bodyPartKoreanName;
 
